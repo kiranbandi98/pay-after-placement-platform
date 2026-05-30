@@ -262,10 +262,13 @@ app.post("/api/reset-password", async (req, res) => {
 
     }
 
-    await pool.query(
-      "UPDATE users SET password=$1 WHERE email=$2",
-      [newPassword, email]
-    );
+  const hashedPassword =
+  await bcrypt.hash(newPassword, 10);
+
+await pool.query(
+  "UPDATE users SET password=$1 WHERE email=$2",
+  [hashedPassword, email]
+);
 
     res.json({
       message: "Password updated successfully"
