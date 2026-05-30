@@ -371,15 +371,16 @@ app.post(
         inserted
       });
 
-    } catch (error) {
+    }  catch (error) {
 
-      console.error(error);
+  console.error("CODING UPLOAD ERROR:", error);
 
-      res.status(500).json({
-        message: "Upload failed"
-      });
+  res.status(500).json({
+    message: "Upload failed",
+    error: error.message
+  });
 
-    }
+}
 
   }
 );
