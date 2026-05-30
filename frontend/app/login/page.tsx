@@ -6,18 +6,57 @@ export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleLogin = () => {
-    if (!email) {
-      alert("Please enter your email");
+  const handleLogin = async () => {
+
+    if (!email || !password) {
+      alert("Enter email and password");
       return;
     }
 
-    // Save user email
-    localStorage.setItem("studentEmail", email);
+    try {
 
-    alert("Login successful");
+      const response = await fetch(
+        "https://pay-after-placement-platform.onrender.com/api/login",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            email,
+            password,
+          }),
+        }
+      );
 
-    window.location.href = "/dashboard";
+      const data = await response.json();
+
+      if (!response.ok) {
+        alert(data.message);
+        return;
+      }
+
+      localStorage.setItem(
+        "studentEmail",
+        data.user.email
+      );
+
+      localStorage.setItem(
+        "studentName",
+        data.user.name
+      );
+
+      alert("Login successful");
+
+      window.location.href = "/dashboard";
+
+    } catch (error) {
+
+      console.error(error);
+
+      alert("Login failed");
+
+    }
   };
 
   return (
