@@ -1,3 +1,4 @@
+const bcrypt = require("bcrypt");
 require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
@@ -156,12 +157,14 @@ app.post("/api/signup", async (req, res) => {
       });
 
     }
+ const hashedPassword =
+  await bcrypt.hash(password, 10);
 
-    await pool.query(
-      `INSERT INTO users (name, email, password)
-       VALUES ($1, $2, $3)`,
-      [name, email, password]
-    );
+await pool.query(
+  `INSERT INTO users (name, email, password)
+   VALUES ($1, $2, $3)`,
+  [name, email, hashedPassword]
+);
 
     res.json({
       message: "Account created successfully"
