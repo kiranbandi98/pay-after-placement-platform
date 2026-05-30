@@ -1,6 +1,16 @@
 import Link from "next/link";
 
 export default function Dashboard() {
+
+  const handleLogout = () => {
+
+    localStorage.removeItem("studentEmail");
+    localStorage.removeItem("studentName");
+
+    window.location.href = "/login";
+
+  };
+
   return (
     <main
       style={{
@@ -15,6 +25,17 @@ export default function Dashboard() {
         Welcome to Pay After Placement Platform
       </p>
 
+      <button
+        onClick={handleLogout}
+        style={{
+          padding: "10px 20px",
+          marginTop: "20px",
+          cursor: "pointer",
+        }}
+      >
+        Logout
+      </button>
+
       <div
         style={{
           marginTop: "60px",
@@ -25,62 +46,23 @@ export default function Dashboard() {
         }}
       >
         <Link href="/accenture">
-          <button
-            style={{
-              padding: "14px 28px",
-              fontSize: "16px",
-              cursor: "pointer",
-            }}
-          >
-            Accenture Practice
-          </button>
+          <button>Accenture Practice</button>
         </Link>
 
         <Link href="/accenture/coding">
-          <button
-            style={{
-              padding: "14px 28px",
-              fontSize: "16px",
-              cursor: "pointer",
-            }}
-          >
-            Coding Round
-          </button>
+          <button>Coding Round</button>
         </Link>
 
         <Link href="/accenture/communication">
-          <button
-            style={{
-              padding: "14px 28px",
-              fontSize: "16px",
-              cursor: "pointer",
-            }}
-          >
-            Communication Test
-          </button>
+          <button>Communication Test</button>
         </Link>
-<Link href="/accenture/behavioral">        
-  <button
-    style={{
-      padding: "14px 28px",
-      fontSize: "16px",
-      cursor: "pointer",
-    }}
-  >
-    Behavioral Round
-  </button>
-</Link>
+
+        <Link href="/accenture/behavioral">
+          <button>Behavioral Round</button>
+        </Link>
 
         <Link href="/mock-interview">
-          <button
-            style={{
-              padding: "14px 28px",
-              fontSize: "16px",
-              cursor: "pointer",
-            }}
-          >
-            Mock Interview
-          </button>
+          <button>Mock Interview</button>
         </Link>
       </div>
     </main>
