@@ -1,9 +1,9 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { Suspense, useState, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 
-export default function InterviewSession() {
+function InterviewSessionContent() {
 
   const searchParams = useSearchParams();
   const mode = searchParams.get("mode") || "normal";
@@ -330,5 +330,13 @@ export default function InterviewSession() {
       <h3>{status}</h3>
 
     </div>
+  );
+}
+
+export default function InterviewSession() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <InterviewSessionContent />
+    </Suspense>
   );
 }
