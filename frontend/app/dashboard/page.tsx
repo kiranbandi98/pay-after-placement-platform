@@ -3,24 +3,47 @@
 import Link from "next/link";
 
 export default function Dashboard() {
-
   const handleLogout = () => {
-
     localStorage.removeItem("studentEmail");
     localStorage.removeItem("studentName");
 
     window.location.href = "/login";
-
   };
 
   return (
     <main
       style={{
+        position: "relative",
+        minHeight: "100vh",
         textAlign: "center",
         marginTop: "100px",
         fontFamily: "Arial, sans-serif",
       }}
     >
+      {/* Logout Top Right */}
+      <div
+        style={{
+          position: "absolute",
+          top: "-70px",
+          right: "30px",
+        }}
+      >
+        <button
+          onClick={handleLogout}
+          style={{
+            padding: "10px 20px",
+            backgroundColor: "red",
+            color: "white",
+            border: "none",
+            borderRadius: "5px",
+            cursor: "pointer",
+            fontSize: "16px",
+          }}
+        >
+          Logout
+        </button>
+      </div>
+
       <h1>Student Dashboard</h1>
 
       <p
@@ -31,22 +54,6 @@ export default function Dashboard() {
       >
         Welcome to Pay After Placement Platform
       </p>
-
-      <button
-        onClick={handleLogout}
-        style={{
-          padding: "12px 25px",
-          fontSize: "16px",
-          cursor: "pointer",
-          marginTop: "20px",
-          backgroundColor: "red",
-          color: "white",
-          border: "none",
-          borderRadius: "5px",
-        }}
-      >
-        Logout
-      </button>
 
       <div
         style={{
