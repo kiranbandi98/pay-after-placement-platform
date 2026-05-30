@@ -16,7 +16,7 @@ export default function LeaderboardPage() {
   useEffect(() => {
     const fetchLeaderboard = async () => {
       try {
-        const res = await fetch("http://localhost:5000/api/leaderboard");
+        const res = await fetch("https://pay-after-placement-platform-1.onrender.com/api/leaderboard");
         const result = await res.json();
         setData(result);
       } catch (error) {

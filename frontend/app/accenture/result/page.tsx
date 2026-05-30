@@ -76,7 +76,7 @@ function ResultContent() {
 
     try {
 
-      await fetch("http://localhost:5000/api/save-result", {
+      await fetch("https://pay-after-placement-platform-1.onrender.com/api/save-result", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"

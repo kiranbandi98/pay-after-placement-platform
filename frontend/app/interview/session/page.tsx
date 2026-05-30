@@ -80,7 +80,7 @@ function InterviewSessionContent() {
       document.documentElement.requestFullscreen();
     }
 
-    const res = await fetch("http://localhost:5000/api/interview/start", {
+    const res = await fetch("https://pay-after-placement-platform-1.onrender.com/api/interview/start", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -155,7 +155,7 @@ function InterviewSessionContent() {
 
     if (!answer || answer.trim() === "") return;
 
-    const res = await fetch("http://localhost:5000/api/interview/next", {
+    const res = await fetch("https://pay-after-placement-platform-1.onrender.com/api/interview/next", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"

@@ -91,7 +91,7 @@ export default function CognitiveTest() {
 
     try {
 
-      await fetch("http://localhost:5000/api/submit-test", {
+      await fetch("https://pay-after-placement-platform-1.onrender.com/api/submit-test", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"

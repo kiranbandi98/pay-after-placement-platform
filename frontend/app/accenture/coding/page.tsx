@@ -14,7 +14,7 @@ export default function CodingRound() {
 
   useEffect(() => {
   axios
-    .get("http://localhost:5000/api/coding-questions/accenture")
+    .get("https://pay-after-placement-platform-1.onrender.com/api/coding-questions/accenture")
     .then((res) => {
       setQuestions(res.data);
     })
@@ -76,7 +76,7 @@ if (questions.length === 0) {
     try {
 
       const response = await axios.post(
-        "http://localhost:5000/api/execute",
+        "https://pay-after-placement-platform-1.onrender.com/api/execute",
         {
           language: language,
           code: codeText,

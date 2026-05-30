@@ -29,7 +29,7 @@ export default function BehavioralPage() {
     const fetchQuestions = async () => {
       try {
         const res = await fetch(
-          "http://localhost:5000/api/questions?company=accenture&category=behavioral"
+          "https://pay-after-placement-platform-1.onrender.com/api/questions?company=accenture&category=behavioral"
         );
 
         const data = await res.json();
@@ -92,7 +92,7 @@ export default function BehavioralPage() {
         selected_answer: ans !== null ? ans.toString() : null,
       }));
 
-      const res = await fetch("http://localhost:5000/api/submit-test", {
+      const res = await fetch("https://pay-after-placement-platform-1.onrender.com/api/submit-test", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

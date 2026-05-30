@@ -10,7 +10,7 @@ export default function LoginPage() {
   const handleLogin = async () => {
     try {
 
-      const res = await fetch("http://localhost:5000/api/login", {
+      const res = await fetch("https://pay-after-placement-platform-1.onrender.com/api/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

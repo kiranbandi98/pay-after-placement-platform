@@ -17,7 +17,7 @@ export default function TechnicalTestPage() {
     async function loadQuestions() {
 
       const res = await fetch(
-        "http://localhost:5000/api/questions?company=accenture&set=set1"
+        "https://pay-after-placement-platform-1.onrender.com/api/questions?company=accenture&set=set1"
       );
 
       const data = await res.json();

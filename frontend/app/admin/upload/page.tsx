@@ -18,7 +18,7 @@ export default function UploadPage() {
 
     try {
 
-      const res = await fetch("http://localhost:5000/api/upload-questions", {
+      const res = await fetch("https://pay-after-placement-platform-1.onrender.com/api/upload-questions", {
         method: "POST",
         body: formData
       });
