@@ -240,6 +240,49 @@ app.post("/api/forgot-password", async (req, res) => {
 
 });
 /* -----------------------------
+   Reset Password
+----------------------------- */
+
+app.post("/api/reset-password", async (req, res) => {
+
+  try {
+
+    const { email, newPassword } = req.body;
+
+    const user = await pool.query(
+      "SELECT * FROM users WHERE email=$1",
+      [email]
+    );
+
+    if (user.rows.length === 0) {
+
+      return res.status(404).json({
+        message: "Email not found"
+      });
+
+    }
+
+    await pool.query(
+      "UPDATE users SET password=$1 WHERE email=$2",
+      [newPassword, email]
+    );
+
+    res.json({
+      message: "Password updated successfully"
+    });
+
+  } catch (error) {
+
+    console.error("Reset Password Error:", error);
+
+    res.status(500).json({
+      message: "Reset password failed"
+    });
+
+  }
+
+});
+/* -----------------------------
    Get All Users
 ----------------------------- */
 

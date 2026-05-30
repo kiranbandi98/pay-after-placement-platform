@@ -102,20 +102,22 @@ export default function LoginPage() {
       >
         Student Login
       </button>
+ <div
+  style={{
+    marginTop: "15px",
+    display: "flex",
+    justifyContent: "center",
+    gap: "20px",
+  }}
+>
+  <Link href="/forgot-password">
+    Forgot Password?
+  </Link>
 
-      <br />
-      <br />
-
-      <Link href="/forgot-password">
-        Forgot Password?
-      </Link>
-
-      <br />
-      <br />
-
-      <Link href="/signup">
-        Create Account
-      </Link>
+  <Link href="/signup">
+    Create Account
+  </Link>
+</div>
 
     </main>
   );
