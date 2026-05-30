@@ -1,6 +1,6 @@
 "use client";
-
 import { useState } from "react";
+import Link from "next/link";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
@@ -102,6 +102,21 @@ export default function LoginPage() {
       >
         Student Login
       </button>
+
+      <br />
+      <br />
+
+      <Link href="/forgot-password">
+        Forgot Password?
+      </Link>
+
+      <br />
+      <br />
+
+      <Link href="/signup">
+        Create Account
+      </Link>
+
     </main>
   );
 }
