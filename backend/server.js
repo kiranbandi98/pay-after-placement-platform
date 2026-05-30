@@ -94,8 +94,7 @@ app.post("/api/register", async (req, res) => {
   }
 
 });
-
-/* -----------------------------
+ /* -----------------------------
    Login User
 ----------------------------- */
 
@@ -106,11 +105,24 @@ app.post("/api/login", async (req, res) => {
     const { email, password } = req.body;
 
     const user = await pool.query(
-      "SELECT * FROM users WHERE email=$1 AND password=$2",
-      [email, password]
+      "SELECT * FROM users WHERE email=$1",
+      [email]
     );
 
     if (user.rows.length === 0) {
+
+      return res.status(401).json({
+        message: "Invalid email or password"
+      });
+
+    }
+
+    const isMatch = await bcrypt.compare(
+      password,
+      user.rows[0].password
+    );
+
+    if (!isMatch) {
 
       return res.status(401).json({
         message: "Invalid email or password"
@@ -134,7 +146,6 @@ app.post("/api/login", async (req, res) => {
   }
 
 });
-
 /* -----------------------------
    Signup User
 ----------------------------- */
