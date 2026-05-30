@@ -1,11 +1,10 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 
-export default function ResultPage() {
-
+function ResultContent() {
   const params = useSearchParams();
 
   const [codingScores, setCodingScores] = useState<number[]>([]);
@@ -180,5 +179,14 @@ export default function ResultPage() {
       </Link>
 
     </main>
+  );
+}
+
+
+export default function ResultPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <ResultContent />
+    </Suspense>
   );
 }
