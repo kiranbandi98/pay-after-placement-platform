@@ -1,3 +1,4 @@
+require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
 const pool = require("./config/db");
@@ -653,6 +654,13 @@ app.get("/api/coding-questions/:company", async (req, res) => {
 
 const PORT = 5000;
 
-app.listen(PORT, () => {
+app.listen(PORT, async () => {
   console.log(`Server running on port ${PORT}`);
+
+  try {
+    const result = await pool.query("SELECT NOW()");
+    console.log("Database Connected:", result.rows[0]);
+  } catch (err) {
+    console.error("Database Error:", err.message);
+  }
 });
