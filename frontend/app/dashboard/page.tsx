@@ -1,13 +1,28 @@
 "use client";
 
 import Link from "next/link";
+import { useEffect } from "react";
 
 export default function Dashboard() {
+
+  useEffect(() => {
+
+    const email =
+      localStorage.getItem("studentEmail");
+
+    if (!email) {
+      window.location.href = "/login";
+    }
+
+  }, []);
+
   const handleLogout = () => {
+
     localStorage.removeItem("studentEmail");
     localStorage.removeItem("studentName");
 
     window.location.href = "/login";
+
   };
 
   return (
