@@ -179,6 +179,53 @@ app.post("/api/signup", async (req, res) => {
 
 });
 /* -----------------------------
+   Forgot Password
+----------------------------- */
+
+app.post("/api/forgot-password", async (req, res) => {
+
+  try {
+
+    const { email } = req.body;
+
+    const user = await pool.query(
+      "SELECT * FROM users WHERE email=$1",
+      [email]
+    );
+
+    if (user.rows.length === 0) {
+      return res.status(404).json({
+        message: "Email not found"
+      });
+    }
+
+    const resetToken =
+      Math.random().toString(36).substring(2, 15);
+
+    await pool.query(
+      `UPDATE users
+       SET reset_token=$1
+       WHERE email=$2`,
+      [resetToken, email]
+    );
+
+    res.json({
+      message: "Reset token generated",
+      token: resetToken
+    });
+
+  } catch (error) {
+
+    console.error(error);
+
+    res.status(500).json({
+      message: "Forgot password failed"
+    });
+
+  }
+
+});
+/* -----------------------------
    Get All Users
 ----------------------------- */
 
