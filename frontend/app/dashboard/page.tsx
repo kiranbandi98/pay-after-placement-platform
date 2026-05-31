@@ -184,6 +184,11 @@ padding: "30px",
       marginTop: "20px",
     }}
   >
+    <Link href="/placement-preparation">
+  <button style={buttonStyle}>
+    Placement Preparation
+  </button>
+</Link>
 
     <Link href="/accenture">
       <button style={buttonStyle}>
