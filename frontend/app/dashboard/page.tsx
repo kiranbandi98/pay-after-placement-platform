@@ -10,6 +10,7 @@ const [studentEmail, setStudentEmail] = useState("");
 
 useEffect(() => {
 
+
 const email =
   localStorage.getItem("studentEmail");
 
@@ -22,7 +23,6 @@ setStudentName(name || "");
 if (!email) {
   window.location.href = "/login";
 }
-
 
 }, []);
 
@@ -59,42 +59,40 @@ fontFamily: "Arial, sans-serif",
 padding: "40px",
 }}
 >
-<div
-style={{
-display: "flex",
-justifyContent: "flex-end",
-}}
->
-<button
-onClick={handleLogout}
-style={{
-padding: "10px 20px",
-backgroundColor: "#dc2626",
-color: "white",
-border: "none",
-borderRadius: "8px",
-cursor: "pointer",
-}}
->
-Logout </button> </div>
 
 
   <div
     style={{
+      display: "flex",
+      justifyContent: "flex-end",
+    }}
+  >
+    <button
+      onClick={handleLogout}
+      style={{
+        padding: "10px 20px",
+        backgroundColor: "#dc2626",
+        color: "white",
+        border: "none",
+        borderRadius: "8px",
+        cursor: "pointer",
+      }}
+    >
+      Logout
+    </button>
+  </div>
+
+  <div
+    style={{
       textAlign: "center",
-      marginTop: "30px",
+      marginTop: "20px",
     }}
   >
     <h1>Student Dashboard</h1>
 
-    <p
-      style={{
-        fontSize: "24px",
-        fontWeight: "bold",
-      }}
-    >
+    <h2>
       Welcome {studentName}
-    </p>
+    </h2>
 
     <p
       style={{
@@ -103,47 +101,80 @@ Logout </button> </div>
     >
       {studentEmail}
     </p>
-
-    <p
-      style={{
-        marginTop: "10px",
-        color: "#d4d4d8",
-      }}
-    >
-      Welcome to Pay After Placement Platform
-    </p>
   </div>
 
   <div
     style={{
-      backgroundColor: "#111",
-      border: "1px solid #333",
-      borderRadius: "16px",
-      padding: "25px",
+      display: "flex",
+      gap: "20px",
       marginTop: "40px",
-      textAlign: "center",
+      flexWrap: "wrap",
     }}
   >
-    <h2>Student Profile</h2>
 
-    <p>Manage your profile information</p>
+    <div
+      style={{
+        flex: 1,
+        minWidth: "320px",
+        backgroundColor: "#111",
+        border: "1px solid #333",
+        borderRadius: "16px",
+        padding: "25px",
+      }}
+    >
+      <h2>My Profile</h2>
 
-    <Link href="/profile">
-      <button style={buttonStyle}>
-        My Profile
-      </button>
-    </Link>
+      <p>Name: {studentName}</p>
+
+      <p>Email: {studentEmail}</p>
+
+      <Link href="/profile">
+        <button style={buttonStyle}>
+          View Profile
+        </button>
+      </Link>
+    </div>
+
+    <div
+      style={{
+        flex: 1,
+        minWidth: "320px",
+        backgroundColor: "#111",
+        border: "1px solid #333",
+        borderRadius: "16px",
+        padding: "25px",
+      }}
+    >
+      <h2>Your Progress</h2>
+
+      <p>Progress: 0%</p>
+
+      <p>Dream Company: Accenture</p>
+
+      <p>Career Track: AI & Machine Learning</p>
+    </div>
+
   </div>
 
   <div
     style={{
       marginTop: "50px",
+      textAlign: "center",
+    }}
+  >
+    <h2>Practice Modules</h2>
+  </div>
+
+  <div
+    style={{
+      marginTop: "30px",
       display: "flex",
       justifyContent: "center",
       flexWrap: "wrap",
       gap: "20px",
     }}
   >
+
     <Link href="/accenture">
       <button style={buttonStyle}>
         Accenture Practice
@@ -173,28 +204,10 @@ Logout </button> </div>
         Mock Interview
       </button>
     </Link>
+
   </div>
 
-  <div
-    style={{
-      backgroundColor: "#111",
-      border: "1px solid #333",
-      borderRadius: "16px",
-      padding: "25px",
-      marginTop: "50px",
-      textAlign: "center",
-    }}
-  >
-    <h2>Your Progress</h2>
-
-    <p>Progress: 0%</p>
-
-    <p>Dream Company: Accenture</p>
-
-    <p>Career Track: AI & Machine Learning</p>
-  </div>
 </main>
-
 
 );
 }
