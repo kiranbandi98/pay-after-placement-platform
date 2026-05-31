@@ -286,6 +286,64 @@ await pool.query(
 
 });
 /* -----------------------------
+   Complete Profile
+----------------------------- */
+
+app.post("/api/complete-profile", async (req, res) => {
+
+  try {
+
+    const {
+      email,
+      phone,
+      college,
+      branch,
+      graduationYear,
+      favoriteLanguage,
+      careerTrack,
+      dreamCompany
+    } = req.body;
+
+    await pool.query(
+      `UPDATE users
+       SET
+       phone = $1,
+       college = $2,
+       branch = $3,
+       graduation_year = $4,
+       favorite_language = $5,
+       career_track = $6,
+       dream_company = $7,
+       profile_completed = true
+       WHERE email = $8`,
+      [
+        phone,
+        college,
+        branch,
+        graduationYear,
+        favoriteLanguage,
+        careerTrack,
+        dreamCompany,
+        email
+      ]
+    );
+
+    res.json({
+      message: "Profile saved successfully"
+    });
+
+  } catch (error) {
+
+    console.error("Complete Profile Error:", error);
+
+    res.status(500).json({
+      message: "Profile save failed"
+    });
+
+  }
+
+});
+/* -----------------------------
    Get All Users
 ----------------------------- */
 
