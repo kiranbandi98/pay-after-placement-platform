@@ -1,14 +1,23 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 export default function Dashboard() {
+
+  const [studentName, setStudentName] = useState("");
+  const [studentEmail, setStudentEmail] = useState("");
 
   useEffect(() => {
 
     const email =
       localStorage.getItem("studentEmail");
+
+    const name =
+      localStorage.getItem("studentName");
+
+    setStudentEmail(email || "");
+    setStudentName(name || "");
 
     if (!email) {
       window.location.href = "/login";
@@ -60,6 +69,25 @@ export default function Dashboard() {
       </div>
 
       <h1>Student Dashboard</h1>
+
+      <p
+        style={{
+          fontSize: "22px",
+          fontWeight: "bold",
+          marginTop: "20px",
+        }}
+      >
+        Welcome {studentName}
+      </p>
+
+      <p
+        style={{
+          fontSize: "16px",
+          marginTop: "10px",
+        }}
+      >
+        Email: {studentEmail}
+      </p>
 
       <p
         style={{
