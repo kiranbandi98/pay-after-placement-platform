@@ -286,6 +286,46 @@ await pool.query(
 
 });
 /* -----------------------------
+   Get Student Profile
+----------------------------- */
+
+app.get("/api/profile/:email", async (req, res) => {
+
+  try {
+
+    const { email } = req.params;
+
+    const user = await pool.query(
+      "SELECT * FROM users WHERE email=$1",
+      [email]
+    );
+
+    if (user.rows.length === 0) {
+
+      return res.status(404).json({
+        message: "User not found"
+      });
+
+    }
+
+    res.json(user.rows[0]);
+
+  } catch (error) {
+
+    console.error(error);
+
+    res.status(500).json({
+      message: "Failed to load profile"
+    });
+
+  }
+
+});
+
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
+/* -----------------------------
    Complete Profile
 ----------------------------- */
 
