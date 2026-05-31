@@ -78,7 +78,7 @@ cursor: "pointer",
 >
 Logout </button> </div>
 
-```
+
   <div
     style={{
       textAlign: "center",
