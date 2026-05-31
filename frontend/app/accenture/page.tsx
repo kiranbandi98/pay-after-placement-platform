@@ -146,7 +146,7 @@ fontFamily: "Arial, sans-serif",
     </div>
 
     <div style={cardStyle}>
-      <h2>🎤 Mock Interview</h2>
+      <h2>🎤AI Mock Interview</h2>
       <p>
         Simulate a real interview
       </p>
