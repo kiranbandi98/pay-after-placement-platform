@@ -11,6 +11,63 @@ export default function CompleteProfile() {
   const [careerTrack, setCareerTrack] = useState("");
   const [dreamCompany, setDreamCompany] = useState("");
 
+  const handleSaveProfile = async () => {
+
+    const email =
+      localStorage.getItem("studentEmail");
+
+    if (
+      !phone ||
+      !college ||
+      !branch ||
+      !graduationYear ||
+      !favoriteLanguage ||
+      !careerTrack ||
+      !dreamCompany
+    ) {
+      alert("Please fill all fields");
+      return;
+    }
+
+    try {
+
+      const response = await fetch(
+        "https://pay-after-placement-platform.onrender.com/api/complete-profile",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            email,
+            phone,
+            college,
+            branch,
+            graduationYear,
+            favoriteLanguage,
+            careerTrack,
+            dreamCompany,
+          }),
+        }
+      );
+
+      const data = await response.json();
+
+      alert(data.message);
+
+      if (response.ok) {
+        window.location.href = "/dashboard";
+      }
+
+    } catch (error) {
+
+      console.error(error);
+
+      alert("Profile save failed");
+
+    }
+  };
+
   return (
     <main
       style={{
@@ -127,6 +184,7 @@ export default function CompleteProfile() {
         </select>
 
         <button
+          onClick={handleSaveProfile}
           style={{
             width: "100%",
             padding: "12px",
