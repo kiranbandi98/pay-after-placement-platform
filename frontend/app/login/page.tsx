@@ -3,132 +3,202 @@ import { useState } from "react";
 import Link from "next/link";
 
 export default function LoginPage() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+const [email, setEmail] = useState("");
+const [password, setPassword] = useState("");
 
-  const handleLogin = async () => {
+const handleLogin = async () => {
 
-    if (!email || !password) {
-      alert("Enter email and password");
-      return;
+
+if (!email || !password) {
+  alert("Enter email and password");
+  return;
+}
+
+try {
+
+  const response = await fetch(
+    "https://pay-after-placement-platform.onrender.com/api/login",
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        email,
+        password,
+      }),
     }
+  );
 
-    try {
+  const data = await response.json();
 
-      const response = await fetch(
-        "https://pay-after-placement-platform.onrender.com/api/login",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            email,
-            password,
-          }),
-        }
-      );
+  if (!response.ok) {
+    alert(data.message);
+    return;
+  }
 
-      const data = await response.json();
+  localStorage.setItem(
+    "studentEmail",
+    data.user.email
+  );
 
-      if (!response.ok) {
-        alert(data.message);
-        return;
-      }
+  localStorage.setItem(
+    "studentName",
+    data.user.name
+  );
 
-      localStorage.setItem(
-        "studentEmail",
-        data.user.email
-      );
+  alert("Login successful");
 
-      localStorage.setItem(
-        "studentName",
-        data.user.name
-      );
+  console.log(data.user);
+  console.log("profile_completed =", data.user.profile_completed);
 
-       alert("Login successful");
+  if (data.user.profile_completed) {
 
-console.log(data.user);
-console.log("profile_completed =", data.user.profile_completed);
-if (data.user.profile_completed) {
+    window.location.href = "/dashboard";
 
-  window.location.href = "/dashboard";
+  } else {
 
-} else {
+    window.location.href = "/complete-profile";
 
-  window.location.href = "/complete-profile";
+  }
+
+} catch (error) {
+
+  console.error(error);
+
+  alert("Login failed");
 
 }
 
-    } catch (error) {
 
-      console.error(error);
+};
 
-      alert("Login failed");
+return (
+<main
+style={{
+minHeight: "100vh",
+backgroundColor: "#000",
+display: "flex",
+justifyContent: "center",
+alignItems: "center",
+fontFamily: "Arial, sans-serif",
+padding: "20px",
+}}
+>
+<div
+style={{
+width: "100%",
+maxWidth: "450px",
+backgroundColor: "#111",
+padding: "40px",
+borderRadius: "20px",
+border: "1px solid #333",
+boxShadow: "0 0 25px rgba(139,92,246,0.3)",
+}}
+>
+<h1
+style={{
+textAlign: "center",
+color: "white",
+marginBottom: "10px",
+}}
+>
+Student Login </h1>
 
-    }
-  };
+```
+    <p
+      style={{
+        textAlign: "center",
+        color: "#aaa",
+        marginBottom: "30px",
+      }}
+    >
+      Pay After Placement Platform
+    </p>
 
-  return (
-    <main style={{ textAlign: "center", marginTop: "100px" }}>
-      <h1>Student Login</h1>
+    <input
+      type="email"
+      placeholder="Enter Email"
+      value={email}
+      onChange={(e) => setEmail(e.target.value)}
+      style={{
+        width: "100%",
+        padding: "14px",
+        marginBottom: "15px",
+        borderRadius: "10px",
+        border: "1px solid #444",
+        backgroundColor: "#1a1a1a",
+        color: "white",
+        boxSizing: "border-box",
+      }}
+    />
 
-      <input
-        type="email"
-        placeholder="Enter Email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
+    <input
+      type="password"
+      placeholder="Enter Password"
+      value={password}
+      onChange={(e) => setPassword(e.target.value)}
+      style={{
+        width: "100%",
+        padding: "14px",
+        marginBottom: "20px",
+        borderRadius: "10px",
+        border: "1px solid #444",
+        backgroundColor: "#1a1a1a",
+        color: "white",
+        boxSizing: "border-box",
+      }}
+    />
+
+    <button
+      onClick={handleLogin}
+      style={{
+        width: "100%",
+        padding: "14px",
+        border: "none",
+        borderRadius: "10px",
+        background:
+          "linear-gradient(90deg, #8b5cf6, #a855f7)",
+        color: "white",
+        fontSize: "18px",
+        cursor: "pointer",
+        fontWeight: "bold",
+      }}
+    >
+      Student Login
+    </button>
+
+    <div
+      style={{
+        marginTop: "20px",
+        display: "flex",
+        justifyContent: "center",
+        gap: "20px",
+      }}
+    >
+      <Link
+        href="/forgot-password"
         style={{
-          padding: "10px",
-          margin: "10px",
-          width: "250px",
-        }}
-      />
-
-      <br />
-
-      <input
-        type="password"
-        placeholder="Enter Password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-        style={{
-          padding: "10px",
-          margin: "10px",
-          width: "250px",
-        }}
-      />
-
-      <br />
-
-      <button
-        onClick={handleLogin}
-        style={{
-          padding: "12px 25px",
-          fontSize: "18px",
-          marginTop: "20px",
-          cursor: "pointer",
+          color: "#a855f7",
+          textDecoration: "none",
         }}
       >
-        Student Login
-      </button>
- <div
-  style={{
-    marginTop: "15px",
-    display: "flex",
-    justifyContent: "center",
-    gap: "20px",
-  }}
->
-  <Link href="/forgot-password">
-    Forgot Password?
-  </Link>
+        Forgot Password?
+      </Link>
 
-  <Link href="/signup">
-    Create Account
-  </Link>
-</div>
+      <Link
+        href="/signup"
+        style={{
+          color: "#a855f7",
+          textDecoration: "none",
+        }}
+      >
+        Create Account
+      </Link>
+    </div>
+  </div>
+</main>
 
-    </main>
-  );
+
+);
 }
