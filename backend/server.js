@@ -576,7 +576,16 @@ app.post(
           defval: "",
           raw: false
         });
-
+      // DELETE OLD CODING QUESTIONS FIRST
+await pool.query(
+`
+DELETE FROM coding_questions
+WHERE LOWER(TRIM(company)) = LOWER(TRIM($1))
+`,
+[
+  questions[0].company
+]
+);
       let inserted = 0;
 
       for (const q of questions) {
