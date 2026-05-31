@@ -4,88 +4,172 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 
 type LeaderboardItem = {
-  student_name: string;
-  company: string;
-  score: number;
+student_name: string;
+company: string;
+score: number;
 };
 
 export default function LeaderboardPage() {
 
-  const [data, setData] = useState<LeaderboardItem[]>([]);
+const [data, setData] = useState<LeaderboardItem[]>([]);
 
-  useEffect(() => {
-    const fetchLeaderboard = async () => {
-      try {
-        const res = await fetch("https://pay-after-placement-platform-1.onrender.com/api/leaderboard");
-        const result = await res.json();
-        setData(result);
-      } catch (error) {
-        console.error("Leaderboard fetch error:", error);
-      }
-    };
+useEffect(() => {
+const fetchLeaderboard = async () => {
+try {
+const res = await fetch(
+"https://pay-after-placement-platform-1.onrender.com/api/leaderboard"
+);
 
-    fetchLeaderboard();
-  }, []);
 
-  return (
-    <main style={{ textAlign: "center", marginTop: "80px" }}>
+    const result = await res.json();
 
-      <h1>🏆 Leaderboard</h1>
+    setData(result);
 
-      <table
-        style={{
-          margin: "40px auto",
-          borderCollapse: "collapse",
-          width: "700px"
-        }}
-      >
-        <thead>
-          <tr style={{ background: "#0070f3", color: "white" }}>
-            <th style={{ padding: "10px" }}>Rank</th>
-            <th style={{ padding: "10px" }}>Student Name</th>
-            <th style={{ padding: "10px" }}>Company</th>
-            <th style={{ padding: "10px" }}>Score</th>
-          </tr>
-        </thead>
+  } catch (error) {
+    console.error("Leaderboard fetch error:", error);
+  }
+};
 
-        <tbody>
-          {data.map((item, index) => (
-            <tr key={index}>
-              <td style={{ border: "1px solid #ddd", padding: "10px" }}>
-                {index + 1}
-              </td>
+fetchLeaderboard();
 
-              <td style={{ border: "1px solid #ddd", padding: "10px" }}>
-                {item.student_name}
-              </td>
 
-              <td style={{ border: "1px solid #ddd", padding: "10px" }}>
-                {item.company}
-              </td>
+}, []);
 
-              <td style={{ border: "1px solid #ddd", padding: "10px" }}>
-                {item.score}
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+return (
+<main
+style={{
+minHeight: "100vh",
+backgroundColor: "#000",
+color: "white",
+padding: "40px",
+fontFamily: "Arial, sans-serif",
+}}
+>
+<div
+style={{
+textAlign: "center",
+marginBottom: "40px",
+}}
+>
+<h1
+style={{
+fontSize: "40px",
+marginBottom: "10px",
+}}
+>
+🏆 Leaderboard </h1>
 
-      <Link href="/dashboard">
-        <button
+```
+    <p
+      style={{
+        color: "#a1a1aa",
+      }}
+    >
+      Top Performing Students
+    </p>
+  </div>
+
+  <div
+    style={{
+      maxWidth: "1000px",
+      margin: "0 auto",
+      backgroundColor: "#111",
+      border: "1px solid #333",
+      borderRadius: "16px",
+      overflow: "hidden",
+    }}
+  >
+    <table
+      style={{
+        width: "100%",
+        borderCollapse: "collapse",
+      }}
+    >
+      <thead>
+        <tr
           style={{
-            padding: "10px 20px",
-            background: "#0070f3",
-            color: "white",
-            border: "none",
-            borderRadius: "6px",
-            cursor: "pointer"
+            background:
+              "linear-gradient(90deg,#8b5cf6,#a855f7)",
           }}
         >
-          Back to Dashboard
-        </button>
-      </Link>
+          <th style={{ padding: "16px" }}>Rank</th>
+          <th style={{ padding: "16px" }}>Student</th>
+          <th style={{ padding: "16px" }}>Company</th>
+          <th style={{ padding: "16px" }}>Score</th>
+        </tr>
+      </thead>
 
-    </main>
-  );
+      <tbody>
+        {data.map((item, index) => (
+          <tr
+            key={index}
+            style={{
+              borderBottom: "1px solid #333",
+            }}
+          >
+            <td
+              style={{
+                padding: "16px",
+                textAlign: "center",
+              }}
+            >
+              #{index + 1}
+            </td>
+
+            <td
+              style={{
+                padding: "16px",
+              }}
+            >
+              {item.student_name}
+            </td>
+
+            <td
+              style={{
+                padding: "16px",
+              }}
+            >
+              {item.company}
+            </td>
+
+            <td
+              style={{
+                padding: "16px",
+                fontWeight: "bold",
+              }}
+            >
+              {item.score}
+            </td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+
+  <div
+    style={{
+      textAlign: "center",
+      marginTop: "30px",
+    }}
+  >
+    <Link href="/dashboard">
+      <button
+        style={{
+          padding: "14px 28px",
+          border: "none",
+          borderRadius: "10px",
+          background:
+            "linear-gradient(90deg,#8b5cf6,#a855f7)",
+          color: "white",
+          cursor: "pointer",
+          fontWeight: "bold",
+        }}
+      >
+        Back to Dashboard
+      </button>
+    </Link>
+  </div>
+</main>
+
+);
 }
