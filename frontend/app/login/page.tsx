@@ -46,9 +46,19 @@ export default function LoginPage() {
         data.user.name
       );
 
-      alert("Login successful");
+       alert("Login successful");
 
-      window.location.href = "/dashboard";
+console.log(data.user);
+console.log("profile_completed =", data.user.profile_completed);
+if (data.user.profile_completed) {
+
+  window.location.href = "/dashboard";
+
+} else {
+
+  window.location.href = "/complete-profile";
+
+}
 
     } catch (error) {
 
