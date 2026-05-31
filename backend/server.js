@@ -321,10 +321,7 @@ app.get("/api/profile/:email", async (req, res) => {
   }
 
 });
-
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
+ 
 /* -----------------------------
    Complete Profile
 ----------------------------- */

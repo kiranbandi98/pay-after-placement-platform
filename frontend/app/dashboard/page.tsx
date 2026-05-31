@@ -170,3 +170,14 @@ export default function Dashboard() {
     </main>
   );
 }
+<Link href="/profile">
+  <button
+    style={{
+      padding: "14px 28px",
+      fontSize: "16px",
+      cursor: "pointer",
+    }}
+  >
+    My Profile
+  </button>
+</Link>
