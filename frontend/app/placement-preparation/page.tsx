@@ -60,40 +60,113 @@ export default function PlacementPreparation() {
           marginTop: "40px",
         }}
       >
-        <h2>Question Sets</h2>
+        <h2>Practice Modules</h2>
 
-        <Link href="/placement-preparation/set1">
-          <button
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fit,minmax(320px,1fr))",
+            gap: "20px",
+            marginTop: "20px",
+          }}
+        >
+          {/* Coding Round */}
+
+          <Link
+            href="/placement-preparation/set1"
             style={{
-              padding: "12px 24px",
-              marginRight: "10px",
-              marginTop: "10px",
-              cursor: "pointer",
+              textDecoration: "none",
+              color: "white",
             }}
           >
-            Set 1
-          </button>
-        </Link>
+            <div
+              style={{
+                backgroundColor: "#111",
+                border: "1px solid #333",
+                borderRadius: "20px",
+                padding: "25px",
+                minHeight: "220px",
+                cursor: "pointer",
+              }}
+            >
+              <h2>Placement Coding Round</h2>
 
-        <button
-          style={{
-            padding: "12px 24px",
-            marginRight: "10px",
-            marginTop: "10px",
-          }}
-        >
-          Set 2
-        </button>
+              <p>100 Coding Questions</p>
 
-        <button
-          style={{
-            padding: "12px 24px",
-            marginRight: "10px",
-            marginTop: "10px",
-          }}
-        >
-          Set 3
-        </button>
+              <p>Difficulty: Easy → Medium → Hard</p>
+
+              <p>Progress: 0%</p>
+
+              <button
+                style={{
+                  marginTop: "20px",
+                  padding: "12px 24px",
+                  backgroundColor: "#8b5cf6",
+                  color: "white",
+                  border: "none",
+                  borderRadius: "10px",
+                  cursor: "pointer",
+                }}
+              >
+                Start Learning
+              </button>
+            </div>
+          </Link>
+
+          {/* Communication */}
+
+          <div
+            style={{
+              backgroundColor: "#111",
+              border: "1px solid #333",
+              borderRadius: "20px",
+              padding: "25px",
+              minHeight: "220px",
+            }}
+          >
+            <h2>Communication Round</h2>
+
+            <p>Communication Practice Questions</p>
+
+            <p>Status: Coming Soon</p>
+          </div>
+
+          {/* Behavioral */}
+
+          <div
+            style={{
+              backgroundColor: "#111",
+              border: "1px solid #333",
+              borderRadius: "20px",
+              padding: "25px",
+              minHeight: "220px",
+            }}
+          >
+            <h2>Behavioral Round</h2>
+
+            <p>HR & Behavioral Preparation</p>
+
+            <p>Status: Coming Soon</p>
+          </div>
+
+          {/* Mock Interview */}
+
+          <div
+            style={{
+              backgroundColor: "#111",
+              border: "1px solid #333",
+              borderRadius: "20px",
+              padding: "25px",
+              minHeight: "220px",
+            }}
+          >
+            <h2>Mock Interview</h2>
+
+            <p>AI Mock Interview Practice</p>
+
+            <p>Status: Coming Soon</p>
+          </div>
+        </div>
       </div>
     </main>
   );
