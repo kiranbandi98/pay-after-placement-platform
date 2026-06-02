@@ -269,6 +269,170 @@ padding: "30px",
     </Link>
   </div>
 </div>
+<div style={{ marginTop: "60px" }}>
+  <h2
+    style={{
+      color: "#a855f7",
+      fontSize: "32px",
+      marginBottom: "20px",
+    }}
+  >
+    Company Preparation
+  </h2>
+
+  <div
+    style={{
+      display: "grid",
+      gridTemplateColumns:
+        "repeat(auto-fit,minmax(320px,1fr))",
+      gap: "20px",
+    }}
+  >
+
+
+{/* TCS */}
+<div style={cardStyle}>
+  <div>
+    <h3>🏢 TCS</h3>
+    <p>Hiring: 42,000 Freshers</p>
+    <p>Roles: Ninja, Digital, Prime</p>
+    <p>Package: ₹3.36–9.0 LPA</p>
+    <p>Eligibility: 60%+, Max 1 Backlog</p>
+  </div>
+  <button style={{ ...buttonStyle, width: "100%" }}>
+    Coming Soon
+  </button>
+</div>
+
+{/* Infosys */}
+<div style={cardStyle}>
+  <div>
+    <h3>🏢 Infosys</h3>
+    <p>Hiring: 20,000 Freshers</p>
+    <p>Roles: DSE, SP</p>
+    <p>Package: ₹6.25–21 LPA</p>
+    <p>Eligibility: 60%+, No Backlogs</p>
+  </div>
+  <button style={{ ...buttonStyle, width: "100%" }}>
+    Coming Soon
+  </button>
+</div>
+
+{/* Cognizant */}
+<div style={cardStyle}>
+  <div>
+    <h3>🏢 Cognizant</h3>
+    <p>Hiring: 24,000–25,000 Freshers</p>
+    <p>Roles: GenC, GenC Next</p>
+    <p>Package: ₹4.0–6.5 LPA</p>
+    <p>Eligibility: 60%+, No Backlogs</p>
+  </div>
+  <button style={{ ...buttonStyle, width: "100%" }}>
+    Coming Soon
+  </button>
+</div>
+
+{/* Wipro */}
+<div style={cardStyle}>
+  <div>
+    <h3>🏢 Wipro</h3>
+    <p>Hiring: 7,500–8,000 Freshers</p>
+    <p>Roles: Project Engineer</p>
+    <p>Package: ₹3.5 LPA</p>
+    <p>Eligibility: 60%+, Max 1 Backlog</p>
+  </div>
+  <button style={{ ...buttonStyle, width: "100%" }}>
+    Coming Soon
+  </button>
+</div>
+
+{/* HCLTech */}
+<div style={cardStyle}>
+  <div>
+    <h3>🏢 HCLTech</h3>
+    <p>Hiring: Graduate Hiring Program</p>
+    <p>Roles: Graduate Trainee, Software Engineer Trainee</p>
+    <p>Package: ₹3.25–4.25 LPA</p>
+    <p>Eligibility: 70%+, No Backlogs</p>
+  </div>
+  <button style={{ ...buttonStyle, width: "100%" }}>
+    Coming Soon
+  </button>
+</div>
+
+{/* Tech Mahindra */}
+<div style={cardStyle}>
+  <div>
+    <h3>🏢 Tech Mahindra</h3>
+    <p>Hiring: Campus Recruitment Drive</p>
+    <p>Roles: Associate Software Engineer</p>
+    <p>Package: ₹3.25–5.5 LPA</p>
+    <p>Eligibility: 60%+, No Backlogs</p>
+  </div>
+  <button style={{ ...buttonStyle, width: "100%" }}>
+    Coming Soon
+  </button>
+</div>
+
+{/* Capgemini */}
+<div style={cardStyle}>
+  <div>
+    <h3>🏢 Capgemini</h3>
+    <p>Hiring: Exceller Program</p>
+    <p>Roles: ASE, Senior Analyst</p>
+    <p>Package: ₹4.0–7.5 LPA</p>
+    <p>Eligibility: 60%+, No Backlogs</p>
+  </div>
+  <button style={{ ...buttonStyle, width: "100%" }}>
+    Coming Soon
+  </button>
+</div>
+
+{/* LTIMindtree */}
+<div style={cardStyle}>
+  <div>
+    <h3>🏢 LTIMindtree</h3>
+    <p>Hiring: T-School Recruitment</p>
+    <p>Roles: GET</p>
+    <p>Package: ₹4.05 LPA</p>
+    <p>Eligibility: 60%+, No Backlogs</p>
+  </div>
+  <button style={{ ...buttonStyle, width: "100%" }}>
+    Coming Soon
+  </button>
+</div>
+
+{/* DXC */}
+<div style={cardStyle}>
+  <div>
+    <h3>🏢 DXC Technology</h3>
+    <p>Hiring: Campus Hiring Drive</p>
+    <p>Roles: Associate Software Engineer</p>
+    <p>Package: ₹4.0–4.5 LPA</p>
+    <p>Eligibility: 60%+, No Backlogs</p>
+  </div>
+  <button style={{ ...buttonStyle, width: "100%" }}>
+    Coming Soon
+  </button>
+</div>
+
+{/* Hexaware */}
+<div style={cardStyle}>
+  <div>
+    <h3>🏢 Hexaware</h3>
+    <p>Hiring: Graduate Hiring Program</p>
+    <p>Roles: GET, PGET</p>
+    <p>Package: ₹4.0–6.0+ LPA</p>
+    <p>Eligibility: 60%+, No Backlogs</p>
+  </div>
+  <button style={{ ...buttonStyle, width: "100%" }}>
+    Coming Soon
+  </button>
+</div>
+
+
+  </div>
+</div>
 
   <div
     style={{
