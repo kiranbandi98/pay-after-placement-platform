@@ -429,7 +429,89 @@ padding: "30px",
     Coming Soon
   </button>
 </div>
+{/* IBM */}
+<div style={cardStyle}>
+  <div>
+    <h3>🏢 IBM</h3>
+    <p>Hiring: Campus Recruitment</p>
+    <p>Roles: Associate System Engineer</p>
+    <p>Package: ₹4.25–4.5 LPA</p>
+    <p>Eligibility: 65%+ / 6.5 CGPA</p>
+  </div>
+  <button style={{ ...buttonStyle, width: "100%" }}>
+    Coming Soon
+  </button>
+</div>
 
+{/* CGI */}
+<div style={cardStyle}>
+  <div>
+    <h3>🏢 CGI</h3>
+    <p>Hiring: Graduate Drive</p>
+    <p>Roles: Associate Software Engineer, Technical Analyst</p>
+    <p>Package: ₹4.0–6.6 LPA</p>
+    <p>Eligibility: 60%+</p>
+  </div>
+  <button style={{ ...buttonStyle, width: "100%" }}>
+    Coming Soon
+  </button>
+</div>
+
+{/* Zensar */}
+<div style={cardStyle}>
+  <div>
+    <h3>🏢 Zensar</h3>
+    <p>Hiring: Off-Campus Program</p>
+    <p>Roles: Graduate Engineer Trainee (GET)</p>
+    <p>Package: ₹4.0 LPA</p>
+    <p>Eligibility: 60%+</p>
+  </div>
+  <button style={{ ...buttonStyle, width: "100%" }}>
+    Coming Soon
+  </button>
+</div>
+
+{/* LTTS */}
+<div style={cardStyle}>
+  <div>
+    <h3>🏢 LTTS</h3>
+    <p>Hiring: Campus Recruitment</p>
+    <p>Roles: Engineer Trainee, Software Platform Engineer</p>
+    <p>Package: ₹4.0–5.5 LPA</p>
+    <p>Eligibility: 60%+</p>
+  </div>
+  <button style={{ ...buttonStyle, width: "100%" }}>
+    Coming Soon
+  </button>
+</div>
+
+{/* Zoho */}
+<div style={cardStyle}>
+  <div>
+    <h3>🏢 Zoho</h3>
+    <p>Hiring: Off-Campus Drive</p>
+    <p>Roles: Software Developer, QA Engineer</p>
+    <p>Package: ₹4.6–12.0 LPA</p>
+    <p>Eligibility: 60%+ / 6.5 CGPA</p>
+  </div>
+  <button style={{ ...buttonStyle, width: "100%" }}>
+    Coming Soon
+  </button>
+</div>
+
+{/* Deloitte */}
+<div style={cardStyle}>
+  <div>
+    <h3>🏢 Deloitte</h3>
+    <p>Hiring: Campus Excellence Program</p>
+    <p>Roles: Associate Analyst, Technology Analyst</p>
+    <p>Package: ₹4.5–6.5 LPA</p>
+    <p>Eligibility: 60%+</p>
+  </div>
+  <button style={{ ...buttonStyle, width: "100%" }}>
+    Coming Soon
+  </button>
+</div>
 
   </div>
 </div>
