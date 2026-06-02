@@ -167,60 +167,115 @@ padding: "30px",
 
   </div>
 
-  <div
+   {/* Top Hiring Companies */}
+
+<div style={{ marginTop: "60px" }}>
+  <h2
     style={{
-      marginTop: "50px",
+      color: "#a855f7",
+      fontSize: "32px",
+      marginBottom: "20px",
     }}
   >
-    <h2>Practice Modules</h2>
-  </div>
+    Top Hiring Companies
+  </h2>
 
   <div
     style={{
       display: "grid",
       gridTemplateColumns:
-        "repeat(auto-fit,minmax(220px,1fr))",
-      gap: "20px",
-      marginTop: "20px",
+        "repeat(auto-fit,minmax(340px,1fr))",
+      gap: "24px",
     }}
   >
-    <Link href="/placement-preparation">
-  <button style={buttonStyle}>
-    Placement Preparation
-  </button>
-</Link>
 
-    <Link href="/accenture">
-      <button style={buttonStyle}>
-        Accenture Practice
-      </button>
-    </Link>
+    {/* Accenture */}
 
-    <Link href="/accenture/coding">
-      <button style={buttonStyle}>
-        Coding Round
-      </button>
-    </Link>
+    <div
+      style={{
+        background: "#111",
+        border: "1px solid #27272a",
+        borderRadius: "20px",
+        padding: "24px",
+      }}
+    >
+      <h3 style={{ color: "#a855f7" }}>
+        Accenture
+      </h3>
 
-    <Link href="/accenture/communication">
-      <button style={buttonStyle}>
-        Communication Test
-      </button>
-    </Link>
+      <p><strong>Hiring Program:</strong> On-Campus & Off-Campus Pooling</p>
+      <p><strong>Roles:</strong> ASE, AASE</p>
+      <p><strong>Package:</strong> ₹4.5 LPA - ₹6.5 LPA</p>
+      <p><strong>Eligibility:</strong> 60%+ | Max 1 Backlog</p>
 
-    <Link href="/accenture/behavioral">
-      <button style={buttonStyle}>
-        Behavioral Round
-      </button>
-    </Link>
+      <p><strong>Selection Process:</strong></p>
 
-    <Link href="/mock-interview">
-      <button style={buttonStyle}>
-        Mock Interview
-      </button>
-    </Link>
+      <ul>
+        <li>Cognitive & Technical Assessment</li>
+        <li>Coding Assessment</li>
+        <li>Communication Assessment</li>
+        <li>Technical & HR Interview</li>
+      </ul>
+    </div>
+
+    {/* TCS */}
+
+    <div
+      style={{
+        background: "#111",
+        border: "1px solid #27272a",
+        borderRadius: "20px",
+        padding: "24px",
+      }}
+    >
+      <h3 style={{ color: "#a855f7" }}>
+        TCS
+      </h3>
+
+      <p><strong>Hiring Program:</strong> TCS NQT</p>
+      <p><strong>Roles:</strong> Ninja, Digital, Prime</p>
+      <p><strong>Package:</strong> ₹3.36 LPA - ₹9.0 LPA</p>
+      <p><strong>Eligibility:</strong> 60%+ | 6 CGPA</p>
+
+      <p><strong>Selection Process:</strong></p>
+
+      <ul>
+        <li>Online Test</li>
+        <li>Technical Interview</li>
+        <li>HR Interview</li>
+      </ul>
+    </div>
+
+    {/* Infosys */}
+
+    <div
+      style={{
+        background: "#111",
+        border: "1px solid #27272a",
+        borderRadius: "20px",
+        padding: "24px",
+      }}
+    >
+      <h3 style={{ color: "#a855f7" }}>
+        Infosys
+      </h3>
+
+      <p><strong>Hiring Program:</strong> HackWithInfy / Campus Recruitment</p>
+      <p><strong>Roles:</strong> SE, DSE, SP</p>
+      <p><strong>Package:</strong> ₹3.6 LPA - ₹9.5 LPA</p>
+      <p><strong>Eligibility:</strong> 60%+ | No Backlogs</p>
+
+      <p><strong>Selection Process:</strong></p>
+
+      <ul>
+        <li>Aptitude & Technical Test</li>
+        <li>Technical Interview</li>
+        <li>HR Interview</li>
+      </ul>
+    </div>
 
   </div>
+</div>
 
   <div
     style={{
