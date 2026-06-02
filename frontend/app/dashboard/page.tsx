@@ -175,52 +175,100 @@ padding: "30px",
     <h2>Practice Modules</h2>
   </div>
 
-  <div
-    style={{
-      display: "grid",
-      gridTemplateColumns:
-        "repeat(auto-fit,minmax(220px,1fr))",
-      gap: "20px",
-      marginTop: "20px",
-    }}
-  >
+  
+     <div
+  style={{
+    display: "grid",
+    gridTemplateColumns:
+      "repeat(auto-fit,minmax(320px,1fr))",
+    gap: "20px",
+    marginTop: "20px",
+  }}
+>
+  <div style={cardStyle}>
+    <h3>Placement Preparation</h3>
+    <p>100 Coding Questions</p>
+    <p style={{ color: "#a1a1aa" }}>
+      Easy → Medium → Hard
+    </p>
+
     <Link href="/placement-preparation">
-  <button style={buttonStyle}>
-    Placement Preparation
-  </button>
-</Link>
+      <button style={buttonStyle}>
+        Start Learning
+      </button>
+    </Link>
+  </div>
+
+  <div style={cardStyle}>
+    <h3>Accenture Practice</h3>
+    <p>Company Specific Preparation</p>
+    <p style={{ color: "#a1a1aa" }}>
+      Assessment + Interview
+    </p>
 
     <Link href="/accenture">
       <button style={buttonStyle}>
-        Accenture Practice
+        Start Learning
       </button>
     </Link>
+  </div>
+
+  <div style={cardStyle}>
+    <h3>Coding Round</h3>
+    <p>DSA & Coding Assessment</p>
+    <p style={{ color: "#a1a1aa" }}>
+      Problem Solving
+    </p>
 
     <Link href="/accenture/coding">
       <button style={buttonStyle}>
-        Coding Round
+        Start Learning
       </button>
     </Link>
+  </div>
+
+  <div style={cardStyle}>
+    <h3>Communication Round</h3>
+    <p>HR Communication Practice</p>
+    <p style={{ color: "#facc15" }}>
+      Coming Soon
+    </p>
 
     <Link href="/accenture/communication">
       <button style={buttonStyle}>
-        Communication Test
+        Open Module
       </button>
     </Link>
+  </div>
+
+  <div style={cardStyle}>
+    <h3>Behavioral Round</h3>
+    <p>HR & Behavioral Preparation</p>
+    <p style={{ color: "#facc15" }}>
+      Coming Soon
+    </p>
 
     <Link href="/accenture/behavioral">
       <button style={buttonStyle}>
-        Behavioral Round
+        Open Module
       </button>
     </Link>
+  </div>
+
+  <div style={cardStyle}>
+    <h3>Mock Interview</h3>
+    <p>AI Mock Interview Practice</p>
+    <p style={{ color: "#facc15" }}>
+      Coming Soon
+    </p>
 
     <Link href="/mock-interview">
       <button style={buttonStyle}>
-        Mock Interview
+        Open Module
       </button>
     </Link>
-
   </div>
+</div>
 
   <div
     style={{
