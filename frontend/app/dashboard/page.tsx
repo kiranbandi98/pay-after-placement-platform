@@ -201,9 +201,9 @@ padding: "30px",
 
   <div style={cardStyle}>
     <h3>Accenture Practice</h3>
-    <p>Company Specific Preparation</p>
+     
     <p style={{ color: "#a1a1aa" }}>
-      Assessment + Interview
+       
     </p>
 
     <Link href="/accenture">
@@ -215,9 +215,9 @@ padding: "30px",
 
   <div style={cardStyle}>
     <h3>Coding Round</h3>
-    <p>DSA & Coding Assessment</p>
+     
     <p style={{ color: "#a1a1aa" }}>
-      Problem Solving
+      
     </p>
 
     <Link href="/accenture/coding">
@@ -229,7 +229,7 @@ padding: "30px",
 
   <div style={cardStyle}>
     <h3>Communication Round</h3>
-    <p>HR Communication Practice</p>
+     
     <p style={{ color: "#facc15" }}>
       Coming Soon
     </p>
@@ -243,9 +243,9 @@ padding: "30px",
 
   <div style={cardStyle}>
     <h3>Behavioral Round</h3>
-    <p>HR & Behavioral Preparation</p>
+     
     <p style={{ color: "#facc15" }}>
-      Coming Soon
+       
     </p>
 
     <Link href="/accenture/behavioral">
@@ -257,7 +257,7 @@ padding: "30px",
 
   <div style={cardStyle}>
     <h3>Mock Interview</h3>
-    <p>AI Mock Interview Practice</p>
+    <p>AI Mock Interview </p>
     <p style={{ color: "#facc15" }}>
       Coming Soon
     </p>
