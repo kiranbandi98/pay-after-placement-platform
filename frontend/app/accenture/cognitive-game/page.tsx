@@ -175,7 +175,7 @@ const [tileRotation, setTileRotation] = useState(getInitialTiles(1));
 
  
  // ---------------- SECTION 3 ----------------
-const [level, setLevel] = useState(2); // ✅ NEW
+const [level, setLevel] = useState(1); // ✅ NEW
 
 useEffect(() => {
   if (level === 1) {
@@ -195,7 +195,10 @@ useEffect(() => {
 const [playerDoor, setPlayerDoor] = useState(6);
 const [hasKey, setHasKey] = useState(false);
 const [hitWall, setHitWall] = useState<number | null>(null);
+const [levelsPassed, setLevelsPassed] = useState(0);
 // ✅ GRID SIZE
+// ✅ ADD THIS HERE
+const [showResult, setShowResult] = useState(false);
 const gridSize = level === 1 ? 3 : level === 2 ? 4 : 5;
 
 // ✅ KEY & DOOR POSITIONS
@@ -286,25 +289,28 @@ function handleCellClick(target: number) {
     if (hasKey) {
 
       if (level === 1) {
+         setLevelsPassed((prev) => prev + 1);
         alert("✅ Level 1 Completed");
         setLevel(2);
         return;
       }
 
       if (level === 2) {
+         setLevelsPassed((prev) => prev + 1);
         alert("✅ Level 2 Completed");
         setLevel(3);
         return;
       }
-
-      if (level === 3) {
-  alert("✅ Door & Key Completed");
+ if (level === 3) {
+  setLevelsPassed((prev) => prev + 1);
 
   setSection2Completed(true);
 
-  if (mode === "test") {
-    setSection(3); // go to Rocket
-  }
+  alert("✅ Door & Key Completed");
+
+  setSection(3); // Open Rocket Game
+
+  return;
 }
 
     } else {
@@ -884,17 +890,21 @@ if (mode === "practice" && section === 1) {
 
       <button
         style={{ margin: "10px", padding: "10px 20px" }}
-        onClick={() => setSection(1)}
+        onClick={() => {
+  window.location.href = "/bubblegame";
+}}
       >
         Bubble Round
       </button>
 
       <button
-        style={{ margin: "10px", padding: "10px 20px" }}
-        onClick={() => setSection(2)}
-      >
-        Door & Key
-      </button>
+  style={{ margin: "10px", padding: "10px 20px" }}
+  onClick={() => {
+    window.location.href = "/doorandkeygame";
+  }}
+>
+  Door & Key
+</button>
 
       <button
   style={{ margin: "10px", padding: "10px 20px" }}

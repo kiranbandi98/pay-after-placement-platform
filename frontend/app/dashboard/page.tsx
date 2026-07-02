@@ -172,7 +172,7 @@ padding: "30px",
       marginTop: "50px",
     }}
   >
-    <h2>Practice Modules</h2>
+    <h2> Company wise modules</h2>
   </div>
 
   
@@ -200,7 +200,7 @@ padding: "30px",
   </div>
 
   <div style={cardStyle}>
-    <h3>Accenture Practice</h3>
+    <h3>Accenture Module</h3>
      
     <p style={{ color: "#a1a1aa" }}>
        
@@ -277,7 +277,7 @@ padding: "30px",
       marginBottom: "20px",
     }}
   >
-    Company Preparation
+    
   </h2>
 
   <div
@@ -290,10 +290,10 @@ padding: "30px",
   >
 
 
-{/* TCS */}
+{/* TCS Module */}
 <div style={cardStyle}>
   <div>
-    <h3>🏢 TCS</h3>
+    <h3>🏢 TCS Module</h3>
     <p>Hiring: 42,000 Freshers</p>
     <p>Roles: Ninja, Digital, Prime</p>
     <p>Package: ₹3.36–9.0 LPA</p>
