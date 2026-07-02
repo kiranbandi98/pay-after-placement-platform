@@ -294,14 +294,12 @@ padding: "30px",
 <div style={cardStyle}>
   <div>
     <h3>🏢 TCS Module</h3>
-    <p>Hiring: 42,000 Freshers</p>
-    <p>Roles: Ninja, Digital, Prime</p>
-    <p>Package: ₹3.36–9.0 LPA</p>
-    <p>Eligibility: 60%+, Max 1 Backlog</p>
   </div>
-  <button style={{ ...buttonStyle, width: "100%" }}>
-    Coming Soon
+   <Link href="/tcs">
+  <button style={buttonStyle}>
+    Start Learning
   </button>
+</Link>
 </div>
 
 {/* Infosys */}
