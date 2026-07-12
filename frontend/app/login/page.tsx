@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 import Link from "next/link";
+import { GoogleLogin, CredentialResponse } from "@react-oauth/google";
 
 export default function LoginPage() {
 const [email, setEmail] = useState("");
@@ -16,8 +17,8 @@ if (!email || !password) {
 
 try {
 
-  const response = await fetch(
-    "https://pay-after-placement-platform.onrender.com/api/login",
+   const response = await fetch(
+  `${process.env.NEXT_PUBLIC_API_URL}/api/login`,
     {
       method: "POST",
       headers: {
@@ -167,6 +168,64 @@ Student Login </h1>
     >
       Student Login
     </button>
+    <div
+  style={{
+    marginTop: "20px",
+    display: "flex",
+    justifyContent: "center",
+  }}
+>
+   <GoogleLogin
+  onSuccess={async (credentialResponse: CredentialResponse) => {
+    try {
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/auth/google`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            token: credentialResponse.credential,
+          }),
+        }
+      );
+
+      const data = await response.json();
+
+      console.log("Google Response:", data);
+
+      if (!response.ok || !data.success) {
+        alert(data.message || "Google Login Failed");
+        return;
+      }
+
+      localStorage.setItem(
+        "studentEmail",
+        data.user.email
+      );
+
+      localStorage.setItem(
+        "studentName",
+        data.user.name
+      );
+
+      if (data.user.profile_completed) {
+        window.location.href = "/dashboard";
+      } else {
+        window.location.href = "/complete-profile";
+      }
+
+    } catch (error) {
+      console.error("Google Login Error:", error);
+      alert("Google Login Failed");
+    }
+  }}
+  onError={() => {
+    console.log("Google Login Failed");
+  }}
+/>
+</div>
 
     <div
       style={{

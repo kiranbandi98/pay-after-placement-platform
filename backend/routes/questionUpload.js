@@ -44,6 +44,7 @@ const upload = multer({
 });
 
 router.post("/upload-questions", upload.single("file"), async (req, res) => {
+  console.log("🚀 Upload API HIT");
   try {
     // ✅ DB CONNECTION TEST
     const test = await db.query("SELECT NOW()");
@@ -87,7 +88,25 @@ router.post("/upload-questions", upload.single("file"), async (req, res) => {
 
       const company = row.company?.toString().trim();
       const category = row.category?.toString().trim();
+      const moduleName = row.module_name?.toString().trim();
+      console.log("Module Name from Excel:", moduleName);
+      console.log("Complete Row:", row);
+      let moduleId = null;
+
+if (moduleName) {
+  const moduleResult = await db.query(
+    "SELECT id FROM modules WHERE LOWER(module_name)=LOWER($1)",
+
+    [moduleName]
+  );
+  console.log("Module Query Result:", moduleResult.rows);
+
+  if (moduleResult.rows.length > 0) {
+    moduleId = moduleResult.rows[0].id;
+  }
+}
       const question = row.question?.toString().trim();
+
 
       const optionA = row.option_a?.toString().trim() || null;
       const optionB = row.option_b?.toString().trim() || null;
@@ -110,6 +129,7 @@ router.post("/upload-questions", upload.single("file"), async (req, res) => {
   (
     company,
     category,
+    module_id,
     section,
     set_no,
     exam_type,
@@ -122,12 +142,13 @@ router.post("/upload-questions", upload.single("file"), async (req, res) => {
     correct_answer
   )
   VALUES
-  ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12)
+  ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13)
   RETURNING *
   `,
   [
     company,
     category,
+    moduleId,
     row.section || null,
 
  row["set_no"] ? row["set_no"].toString().trim() : null,

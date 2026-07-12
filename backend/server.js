@@ -12,6 +12,10 @@ const app = express();
 
 app.use(cors());
 app.use(express.json());
+
+const googleAuth = require("./routes/googleAuth");
+
+app.use("/api/auth/google", googleAuth);
 /* -----------------------------
    AI INTERVIEW ROUTE
 ----------------------------- */
