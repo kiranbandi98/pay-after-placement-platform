@@ -1,20 +1,19 @@
 "use client";
 
 import Link from "next/link";
+import { useEffect, useState } from "react";
 
 export default function TechnicalResultPage() {
-
-  const company =
-    localStorage.getItem("technicalCompany") || "Accenture";
-
-  const set =
-    localStorage.getItem("technicalSet") || "SET1";
-
-  const score =
-    Number(localStorage.getItem("technicalScore")) || 0;
-
-  const total =
-    Number(localStorage.getItem("technicalTotal")) || 45;
+ const [company, setCompany] = useState("Accenture");
+const [set, setSet] = useState("SET1");
+const [score, setScore] = useState(0);
+const [total, setTotal] = useState(45);
+useEffect(() => {
+  setCompany(localStorage.getItem("technicalCompany") || "Accenture");
+  setSet(localStorage.getItem("technicalSet") || "SET1");
+  setScore(Number(localStorage.getItem("technicalScore")) || 0);
+  setTotal(Number(localStorage.getItem("technicalTotal")) || 45);
+}, []);
 
   const percentage =
     ((score / total) * 100).toFixed(2);
