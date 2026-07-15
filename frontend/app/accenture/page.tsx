@@ -1,6 +1,31 @@
+"use client";
+
+import { useEffect, useState } from "react";
 import Link from "next/link";
 
 export default function AccenturePage() {
+    const [progress, setProgress] = useState({
+    technicalProgress: 0,
+    codingProgress: 0,
+    round2Progress: 0,
+  });
+   useEffect(() => {
+
+  const userId = localStorage.getItem("userId");
+  if (!userId) {
+  window.location.href = "/login";
+  return;
+}
+
+  fetch(
+    `http://localhost:5000/api/progress/round2/${userId}`
+  )
+    .then((res) => res.json())
+    .then((data) => {
+      setProgress(data);
+    });
+
+}, []);
   const roundStyle = {
     backgroundColor: "#111",
     border: "1px solid #333",
@@ -115,7 +140,89 @@ export default function AccenturePage() {
         <h2 style={{ color: "#a855f7" }}>
           Round 2 - Technical Round
         </h2>
+        {/* Round 2 Progress */}
 
+<div
+  style={{
+    background: "#18181b",
+    border: "1px solid #333",
+    borderRadius: "16px",
+    padding: "20px",
+    marginTop: "25px",
+    marginBottom: "25px",
+  }}
+>
+
+  <h3
+    style={{
+      color: "#8b5cf6",
+      marginBottom: "20px",
+    }}
+  >
+    📊 Round 2 Progress
+  </h3>
+
+  { [
+  {
+    title: "Technical Assessment",
+    value: progress.technicalProgress,
+  },
+  {
+    title: "Coding Assessment",
+    value: progress.codingProgress,
+  },
+  {
+    title: "Overall Round 2",
+    value: progress.round2Progress,
+  },
+].map((item) => (
+
+    <div
+      key={item.title}
+      style={{ marginBottom: "20px" }}
+    >
+
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          marginBottom: "6px",
+        }}
+      >
+
+        <span>{item.title}</span>
+
+        <span>{item.value}%</span>
+
+      </div>
+
+      <div
+        style={{
+          width: "100%",
+          height: "12px",
+          background: "#27272a",
+          borderRadius: "20px",
+          overflow: "hidden",
+        }}
+      >
+
+        <div
+          style={{
+            width: `${item.value}%`,
+            height: "100%",
+            background:
+              "linear-gradient(90deg,#8b5cf6,#a855f7)",
+            transition: ".5s",
+          }}
+        />
+
+      </div>
+
+    </div>
+
+  ))}
+
+</div>
         <div
           style={{
             display: "flex",
@@ -130,11 +237,11 @@ export default function AccenturePage() {
             <p>45 Questions</p>
             <p>45 Minutes</p>
 
-            <Link href="/accenture/technical/test">
-              <button style={buttonStyle}>
-                Start Technical Test
-              </button>
-            </Link>
+             <Link href="/accenture/technical">
+  <button style={buttonStyle}>
+    Start Technical Test
+  </button>
+</Link>
           </div>
 
           <div style={cardStyle}>
@@ -143,7 +250,7 @@ export default function AccenturePage() {
             <p>3 Coding Questions</p>
             <p>60 Minutes</p>
 
-            <Link href="/accenture/coding">
+             <Link href="/accenture/coding/sets">
               <button style={buttonStyle}>
                 Start Coding Round
               </button>

@@ -7,6 +7,7 @@ const axios = require("axios");
 const multer = require("multer");
 const XLSX = require("xlsx");
 const fs = require("fs");
+const progressEngine = require("./progressEngine");
 
 const app = express();
 
@@ -453,7 +454,7 @@ app.post("/api/upload-questions", upload.single("file"), async (req, res) => {
   questions[0].category
 ]);
     let inserted = 0;
-
+const firstRow = questions[0];
     // 🔥 Insert questions
     for (let i = 0; i < questions.length; i++) {
 
@@ -477,6 +478,62 @@ app.post("/api/upload-questions", upload.single("file"), async (req, res) => {
         console.log("❌ Skipped empty row");
         continue;
       }
+       const moduleResult = await pool.query(
+`
+SELECT id
+FROM modules
+WHERE LOWER(module_name) = LOWER($1)
+`,
+[q.module_name?.toString().trim()]
+);
+
+if (moduleResult.rows.length === 0) {
+  console.log("Module not found:", category);
+  continue;
+}
+
+const moduleId = moduleResult.rows[0].id;
+// Remove previous latest set
+await pool.query(
+  `
+  UPDATE question_sets
+  SET is_latest = FALSE
+  WHERE company = $1
+  AND module_id = $2
+  `,
+  [company, moduleId]
+);
+
+// Create or update current question set
+await pool.query(
+  `
+  INSERT INTO question_sets
+  (
+      company,
+      module_id,
+      set_no,
+      title,
+      year,
+      is_latest
+  )
+  VALUES
+  ($1,$2,$3,$4,$5,TRUE)
+
+  ON CONFLICT (company,module_id,set_no)
+
+  DO UPDATE SET
+
+      is_latest = TRUE,
+      created_at = CURRENT_TIMESTAMP
+  `,
+  [
+      company,
+      moduleId,
+      q.set_no,
+      `${company.toUpperCase()} ${q.set_no.toUpperCase()} Practice Set`,
+      new Date().getFullYear()
+  ]
+);
 
       try {
 
@@ -494,10 +551,11 @@ app.post("/api/upload-questions", upload.single("file"), async (req, res) => {
     option_b,
     option_c,
     option_d,
-    correct_answer
+    correct_answer,
+    module_id
   )
   VALUES
-  ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12)
+  ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13)
   RETURNING *`,
   [
     company,
@@ -514,6 +572,7 @@ app.post("/api/upload-questions", upload.single("file"), async (req, res) => {
     optionC,
     optionD,
     correctAnswer,
+     moduleId
   ]
 );
 
@@ -649,7 +708,7 @@ WHERE LOWER(TRIM(company)) = LOWER(TRIM($1))
 ------------------------------------------------ */
 app.get("/api/questions", async (req, res) => {
   try {
-    const { company, category } = req.query;
+    const { company, category, set } = req.query;
 
     let query = `SELECT * FROM questions WHERE 1=1`;
     let values = [];
@@ -663,6 +722,10 @@ app.get("/api/questions", async (req, res) => {
       values.push(category);
       query += ` AND category = $${values.length}`;
     }
+    if (set) {
+  values.push(set);
+  query += ` AND set_no = $${values.length}`;
+}
 
     const result = await pool.query(query, values);
 
@@ -677,144 +740,72 @@ app.get("/api/questions", async (req, res) => {
       message: "Failed to fetch questions",
     });
   }
-});
- 
+});  
+
 /* ------------------------------------------------
-   SUBMIT TEST API   <-- ADD HERE
+   SUBMIT CODING TEST API
 ------------------------------------------------ */
 
-app.post("/api/submit-test", async (req, res) => {
+app.post("/api/submit-coding-test", async (req, res) => {
 
   try {
 
-    const { user_id, answers } = req.body;
+    const {
+      user_id,
+      company,
+      module_id,
+      set_no,
+      score,
+      total_questions
+    } = req.body;
 
-    let score = 0;
+    const percentage = Number(
+      ((score / total_questions) * 100).toFixed(2)
+    );
 
-    for (const a of answers) {
+    const status =
+      percentage >= 70 ? "PASSED" : "FAILED";
 
-      const question = await pool.query(
-        "SELECT correct_answer, company FROM questions WHERE id=$1",
-        [a.question_id]
-      );
-
-      const correct = question.rows[0].correct_answer;
-      const company = question.rows[0].company;
-
-      const isCorrect = correct === a.selected_answer;
-
-      if (isCorrect) score++;
-
-      await pool.query(
-        `INSERT INTO test_results
-        (user_id, company, question_id, selected_answer, correct_answer, is_correct)
-        VALUES ($1,$2,$3,$4,$5,$6)`,
-        [
-          user_id,
-          company,
-          a.question_id,
-          a.selected_answer,
-          correct,
-          isCorrect
-        ]
-      );
-
-    }
-
-    res.json({
-      message: "Test submitted successfully",
-      score: score,
-      total: answers.length
-    });
-
-  } catch (error) {
-
-    console.error("Submit Test Error:", error);
-
-    res.status(500).json({
-      message: "Test submission failed"
-    });
-
-  }
-
-});
-/* ------------------------------------------------
-   GET USER TEST RESULTS
------------------------------------------------- */
-
-app.get("/api/results/:user_id", async (req, res) => {
-
-  try {
-
-    const { user_id } = req.params;
-
-    const result = await pool.query(
-      "SELECT * FROM test_results WHERE user_id=$1 ORDER BY created_at DESC",
-      [user_id]
+    await pool.query(
+      `
+      INSERT INTO student_coding_results
+      (
+        user_id,
+        company,
+        module_id,
+        set_no,
+        score,
+        total_questions,
+        percentage,
+        status
+      )
+      VALUES
+      ($1,$2,$3,$4,$5,$6,$7,$8)
+      `,
+      [
+        user_id,
+        company,
+        module_id,
+        set_no,
+        score,
+        total_questions,
+        percentage,
+        status
+      ]
     );
 
     res.json({
-      total_attempts: result.rows.length,
-      results: result.rows
+      message: "Coding result saved successfully",
+      percentage,
+      status
     });
 
   } catch (error) {
 
-    console.error("Results Fetch Error:", error);
+    console.error("Coding Result Error:", error);
 
     res.status(500).json({
-      message: "Fetching results failed"
-    });
-
-  }
-
-});
- 
-/* ------------------------------------------------
-   CODE EXECUTION API
------------------------------------------------- */
-
-app.post("/api/execute", async (req, res) => {
-
-  try {
-
-    const { language, code, input } = req.body;
-
-    const languageMap = {
-      java: 62,
-      python: 71,
-      javascript: 63,
-      cpp: 54,
-      c: 50
-    };
-
-    const response = await axios.post(
-      "https://ce.judge0.com/submissions?base64_encoded=false&wait=true",
-      {
-        source_code: code,
-        language_id: languageMap[language],
-        stdin: input || ""
-      },
-      {
-        headers: {
-          "Content-Type": "application/json"
-        }
-      }
-    );
-
-    res.json({
-      run: {
-        stdout: response.data.stdout,
-        stderr: response.data.stderr
-      }
-    });
-
-  } catch (error) {
-
-    console.error("Execution Error:", error.message);
-
-    res.status(500).json({
-      message: "Execution failed"
+      message: "Saving coding result failed"
     });
 
   }
@@ -877,25 +868,35 @@ app.post("/api/save-result", async (req, res) => {
 
   }
 
-});
+}); 
+
 /* ------------------------------------------------
-   FETCH CODING QUESTIONS
+   FETCH CODING QUESTIONS (Dynamic Sets)
 ------------------------------------------------ */
 
-app.get("/api/coding-questions/:company", async (req, res) => {
+app.get("/api/coding-questions", async (req, res) => {
 
   try {
 
-    const { company } = req.params;
+    const { company, set } = req.query;
 
     const result = await pool.query(
-      `SELECT * FROM coding_questions
-       WHERE LOWER(company) = LOWER($1)
-       ORDER BY id`,
-      [company]
+      `
+      SELECT *
+      FROM coding_questions
+      WHERE LOWER(company) = LOWER($1)
+      AND LOWER(set_no) = LOWER($2)
+      ORDER BY id
+      `,
+      [
+        company,
+        set
+      ]
     );
 
-    res.json(result.rows);
+    res.json({
+      questions: result.rows
+    });
 
   } catch (error) {
 
@@ -903,6 +904,198 @@ app.get("/api/coding-questions/:company", async (req, res) => {
 
     res.status(500).json({
       message: "Failed to fetch coding questions"
+    });
+
+  }
+
+});
+/* ----------------------------------------
+   GET AVAILABLE QUESTION SETS
+---------------------------------------- */
+
+app.get("/api/question-sets", async (req, res) => {
+
+  try {
+
+    const { company, category } = req.query;
+
+    const result = await pool.query(
+      `
+      SELECT DISTINCT set_no
+      FROM questions
+      WHERE company = $1
+      AND category = $2
+      ORDER BY set_no
+      `,
+      [company, category]
+    );
+
+    res.json({
+      sets: result.rows
+    });
+
+  } catch (err) {
+
+    console.error(err);
+
+    res.status(500).json({
+      message: "Failed to load sets"
+    });
+
+  }
+
+});
+/* ----------------------------------------
+   GET AVAILABLE CODING SETS
+---------------------------------------- */
+
+app.get("/api/coding-question-sets", async (req, res) => {
+
+  try {
+
+    const { company } = req.query;
+
+    const result = await pool.query(
+      `
+      SELECT DISTINCT set_no
+      FROM coding_questions
+      WHERE LOWER(company) = LOWER($1)
+      ORDER BY set_no
+      `,
+      [company]
+    );
+
+    res.json({
+      sets: result.rows
+    });
+
+  } catch (err) {
+
+    console.error(err);
+
+    res.status(500).json({
+      message: "Failed to load coding sets"
+    });
+
+  }
+
+});
+/* ------------------------------------------------
+   ROUND 2 PROGRESS API
+------------------------------------------------ */
+
+app.get("/api/progress/round2/:user_id", async (req, res) => {
+
+  try {
+
+    const { user_id } = req.params;
+
+    // Total Technical Sets
+    const totalTechnical = await pool.query(`
+      SELECT COUNT(DISTINCT set_no) AS total
+      FROM questions
+      WHERE company='accenture'
+      AND category='technical'
+    `);
+
+    // Completed Technical Sets
+    const completedTechnical = await pool.query(`
+      SELECT COUNT(DISTINCT set_no) AS completed
+      FROM student_test_results
+      WHERE user_id=$1
+      AND company='accenture'
+      AND status='PASSED'
+    `,[user_id]);
+
+    // Total Coding Sets
+    const totalCoding = await pool.query(`
+      SELECT COUNT(DISTINCT set_no) AS total
+      FROM coding_questions
+      WHERE company='accenture'
+    `);
+
+    // Completed Coding Sets
+    const completedCoding = await pool.query(`
+      SELECT COUNT(DISTINCT set_no) AS completed
+      FROM student_coding_results
+      WHERE user_id=$1
+      AND company='accenture'
+      AND status='PASSED'
+    `,[user_id]);
+
+    const technicalTotal =
+      Number(totalTechnical.rows[0].total);
+
+    const technicalCompleted =
+      Number(completedTechnical.rows[0].completed);
+
+    const codingTotal =
+      Number(totalCoding.rows[0].total);
+
+    const codingCompleted =
+      Number(completedCoding.rows[0].completed);
+
+    const technicalProgress =
+      technicalTotal === 0
+      ? 0
+      : Math.round(
+          (technicalCompleted / technicalTotal) * 100
+        );
+
+    const codingProgress =
+      codingTotal === 0
+      ? 0
+      : Math.round(
+          (codingCompleted / codingTotal) * 100
+        );
+
+    const round2Progress =
+  Math.round(
+    (technicalProgress + codingProgress) / 2
+  );
+
+  const technicalRoundCompleted =
+  technicalProgress === 100;
+
+const codingRoundCompleted =
+  codingProgress === 100;
+
+let dashboardRound2 = 0;
+
+if (technicalCompleted) {
+  dashboardRound2 += 50;
+}
+
+if (codingCompleted) {
+  dashboardRound2 += 50;
+}
+
+     res.json({
+
+  // Assessment Page
+  technicalProgress,
+  codingProgress,
+  round2Progress,
+
+  technicalCompleted,
+  technicalTotal,
+
+  codingCompleted,
+  codingTotal,
+
+  // Dashboard
+  technicalRoundCompleted,
+  codingRoundCompleted,
+  dashboardRound2
+
+});
+
+  } catch (error) {
+
+    console.error(error);
+
+    res.status(500).json({
+      message: "Progress loading failed"
     });
 
   }

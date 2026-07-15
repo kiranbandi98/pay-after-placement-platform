@@ -1,11 +1,15 @@
 "use client";
 
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useState, useEffect } from "react";
 
 export default function TechnicalTestPage() {
 
   const router = useRouter();
+  const searchParams = useSearchParams();
+
+const selectedSet =
+  searchParams.get("set") || "set1";
 
   const [questions, setQuestions] = useState<any[]>([]);
   const [current, setCurrent] = useState(0);
@@ -13,25 +17,32 @@ export default function TechnicalTestPage() {
   const [timeLeft, setTimeLeft] = useState(45 * 60);
 
   useEffect(() => {
+    const userId = localStorage.getItem("userId");
+
+if (!userId) {
+  window.location.href = "/login";
+  return;
+}
 
     async function loadQuestions() {
 
-      const res = await fetch(
-        "https://pay-after-placement-platform-1.onrender.com/api/questions?company=accenture&set=set1"
-      );
+       const res = await fetch(
+  `https://pay-after-placement-platform.onrender.com/api/questions?company=accenture&set=${selectedSet}`
+);
 
       const data = await res.json();
 
       const formatted = data.questions.map((q: any) => ({
-        question: q.question,
-        options: [
-          q.option_a,
-          q.option_b,
-          q.option_c,
-          q.option_d
-        ],
-        answer: q.correct_answer
-      }));
+  id: q.id,
+  question: q.question,
+  options: [
+    q.option_a,
+    q.option_b,
+    q.option_c,
+    q.option_d
+  ],
+  answer: q.correct_answer
+}));
 
       setQuestions(formatted);
       setAnswers(new Array(formatted.length).fill(null));
@@ -58,7 +69,7 @@ export default function TechnicalTestPage() {
 
   }, [timeLeft, questions]);
 
-  function selectAnswer(value: number) {
+   function selectAnswer(value: string) {
     const updated = [...answers];
     updated[current] = value;
     setAnswers(updated);
@@ -77,22 +88,64 @@ export default function TechnicalTestPage() {
       submitTest();
     }
   }
+ async function submitTest() {
 
-  function submitTest() {
+  let score = 0;
 
-    let score = 0;
+  questions.forEach((q, index) => {
+    if (String(answers[index]) === String(q.answer)) {
+      score++;
+    }
+  });
 
-    questions.forEach((q, index) => {
-      if (String(answers[index]) === String(q.answer)) {
+  const userId = localStorage.getItem("userId");
 
-        score++;
-      }
-    });
-
-    localStorage.setItem("technicalScore", score.toString());
-
-    router.push("/accenture/result");
+  if (!userId) {
+    alert("User not logged in");
+    return;
   }
+
+  const payload = {
+    user_id: Number(userId),
+    answers: questions.map((q, index) => ({
+      question_id: q.id,
+      selected_answer: answers[index]
+    }))
+  };
+
+  try {
+
+    const response = await fetch(
+      "http://localhost:5000/api/submit-test",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(payload)
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error("Submission failed");
+    }
+
+    const result = await response.json();
+
+    localStorage.setItem("technicalScore", result.score.toString());
+    localStorage.setItem("technicalTotal", result.total.toString());
+    localStorage.setItem("technicalSet", selectedSet);
+    localStorage.setItem("technicalCompany", "Accenture");
+
+    router.push("/accenture/technical/result");
+
+  } catch (error) {
+
+    console.error(error);
+    alert("Failed to submit test.");
+
+  }
+}
 
   if (questions.length === 0) {
     return <p style={{ textAlign: "center", marginTop: "50px" }}>Loading questions...</p>;
@@ -183,10 +236,10 @@ export default function TechnicalTestPage() {
 
   <div
     key={index}
-    onClick={() => selectAnswer(opt)}
+    onClick={() => selectAnswer(String.fromCharCode(65 + index))}
     className={`border rounded-2xl p-4 cursor-pointer transition-all duration-300 flex items-center gap-4
     ${
-      answers[current] === opt
+      answers[current] === String.fromCharCode(65 + index)
         ? "border-purple-500 bg-purple-50 shadow-md"
         : "border-gray-200 bg-white hover:border-purple-300"
     }`}
@@ -195,13 +248,13 @@ export default function TechnicalTestPage() {
     <div
       className={`w-6 h-6 rounded-full border-2 flex items-center justify-center transition-all duration-300
       ${
-        answers[current] === opt
+        answers[current] === String.fromCharCode(65 + index)
           ? "border-purple-600"
           : "border-gray-400"
       }`}
     >
 
-      {answers[current] === opt && (
+      { answers[current] === String.fromCharCode(65 + index) && (
         <div className="w-3 h-3 bg-purple-600 rounded-full animate-pulse"></div>
       )}
 

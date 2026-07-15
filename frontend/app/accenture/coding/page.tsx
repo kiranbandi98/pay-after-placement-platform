@@ -1,27 +1,41 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
+ import { useRouter, useSearchParams } from "next/navigation";
 import Editor from "@monaco-editor/react";
 import axios from "axios";
 
 export default function CodingRound() {
 
   const router = useRouter();
+const searchParams = useSearchParams();
 
+const selectedSet =
+  searchParams.get("set") || "set1";
   const [questions, setQuestions] = useState<any[]>([]);
   
 
   useEffect(() => {
-  axios
-    .get("https://pay-after-placement-platform-1.onrender.com/api/coding-questions/accenture")
+    
+   const userId = localStorage.getItem("userId");
+
+  if (!userId) {
+    window.location.href = "/login";
+    return;
+  }
+
+axios
+  .get(
+    `http://localhost:5000/api/coding-questions?company=accenture&set=${selectedSet}`
+  )
     .then((res) => {
-      setQuestions(res.data);
-    })
+  setQuestions(res.data.questions);
+  console.log("Coding Questions:", res.data.questions);
+})
     .catch((err) => {
       console.error("Error loading coding questions:", err);
     });
-}, []);
+}, [selectedSet]);
 
   const [current, setCurrent] = useState(0);
   const [codeText, setCode] = useState("// Write your code here");
@@ -65,6 +79,7 @@ export default function CodingRound() {
   useEffect(() => {
     setCode(codes[current]);
   }, [current]);
+  console.log("Questions State:", questions);
 if (questions.length === 0) {
   return <h2>Loading coding questions...</h2>;
 }
@@ -195,31 +210,47 @@ if (!submitted) {
       setOutput("");
       setSubmitted(false);
 
-    } else {
+     } else {
 
-      const total = scores.reduce((a, b) => a + b, 0);
+  const total = scores.reduce((a, b) => a + b, 0);
 
-      setOutput(
-        "All questions completed. Redirecting to results..."
-      );
+  setOutput(
+    "All questions completed. Redirecting to results..."
+  );
 
-      localStorage.setItem("coding_scores", JSON.stringify(scores));
-      localStorage.setItem("coding_total", String(total));
+  localStorage.setItem("coding_scores", JSON.stringify(scores));
+  localStorage.setItem("coding_total", String(total));
 
+  localStorage.setItem("codingCompany", "Accenture");
+  localStorage.setItem("codingSet", "SET1");
+
+  const userId = localStorage.getItem("userId");
+
+  fetch("http://localhost:5000/api/submit-coding-test", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      user_id: Number(userId),
+      company: "accenture",
+      module_id: 7,
+      set_no: "set1",
+      score: total,
+      total_questions: questions.length,
+    }),
+  })
+    .then(() => {
       setTimeout(() => {
-
-        const programmingPassed = scores[0] > 0;
-        const sqlPassed = (scores[1] > 0) || (scores[2] > 0);
-
-        if (programmingPassed && sqlPassed) {
-          router.push("/accenture/communication");
-        } else {
-          router.push("/accenture/result");
-        }
-
+        router.push("/accenture/coding/result");
       }, 1500);
+    })
+    .catch((err) => {
+      console.error("Coding Result Save Error:", err);
+      alert("Failed to save coding result.");
+    });
 
-    }
+}
 
   };
 

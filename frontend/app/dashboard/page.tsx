@@ -4,36 +4,57 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 
 export default function Dashboard() {
+  const [round2Progress, setRound2Progress] = useState(0);
 
 const [studentName, setStudentName] = useState("");
 const [studentEmail, setStudentEmail] = useState("");
 
 useEffect(() => {
 
- 
+ const userId =
+  localStorage.getItem("userId");
+
 const email =
   localStorage.getItem("studentEmail");
 
 const name =
   localStorage.getItem("studentName");
 
+if (!userId) {
+  window.location.href = "/login";
+  return;
+}
+
 setStudentEmail(email || "");
 setStudentName(name || "");
 
-if (!email) {
-  window.location.href = "/login";
-}
 
+}, []);
+useEffect(() => {
+
+  const userId = localStorage.getItem("userId");
+
+if (!userId) return;
+
+fetch(`http://localhost:5000/api/progress/round2/${userId}`)
+    .then((res) => res.json())
+    .then((data) => {
+      console.log("Progress API:", data);
+      setRound2Progress(data.dashboardRound2);
+    })
+    .catch((err) => {
+      console.error("Progress API Error:", err);
+    });
 
 }, []);
 
 const handleLogout = () => {
 
-localStorage.removeItem("studentEmail");
-localStorage.removeItem("studentName");
+  localStorage.removeItem("userId");
+  localStorage.removeItem("studentEmail");
+  localStorage.removeItem("studentName");
 
-window.location.href = "/login";
-
+  window.location.href = "/login";
 
 };
 
@@ -199,19 +220,92 @@ padding: "30px",
     </Link>
   </div>
 
-  <div style={cardStyle}>
-    <h3>Accenture Module</h3>
-     
-    <p style={{ color: "#a1a1aa" }}>
-       
-    </p>
+ <div
+  style={{
+    ...cardStyle,
+    border: "2px solid #8b5cf6",
+    borderRadius: "18px",
+    padding: "24px",
+    background: "linear-gradient(180deg,#18181b,#09090b)",
+  }}
+>
+  <h2
+    style={{
+      color: "#a855f7",
+      marginBottom: "5px",
+      fontSize: "26px",
+      fontWeight: "bold",
+    }}
+  >
+    🏢 Accenture Module
+  </h2>
 
-    <Link href="/accenture">
-      <button style={buttonStyle}>
-        Start Learning
-      </button>
-    </Link>
-  </div>
+  <p
+    style={{
+      color: "#a1a1aa",
+      marginBottom: "20px",
+      fontSize: "15px",
+    }}
+  >
+    Company Assessment Progress
+  </p>
+
+  {
+  [
+  { name: "Round 1", value: 0 },
+  { name: "Round 2", value: round2Progress },
+  { name: "Round 3", value: 0 },
+  { name: "Round 4", value: 0 },
+] 
+  .map((round) => (
+    <div key={round.name} style={{ marginBottom: "18px" }}>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          marginBottom: "6px",
+          fontWeight: "bold",
+        }}
+      >
+        <span>{round.name}</span>
+        <span>{round.value}%</span>
+      </div>
+
+      <div
+        style={{
+          width: "100%",
+          height: "10px",
+          background: "#27272a",
+          borderRadius: "20px",
+          overflow: "hidden",
+        }}
+      >
+        <div
+          style={{
+            width: `${round.value}%`,
+            height: "100%",
+            background:
+              "linear-gradient(90deg,#8b5cf6,#a855f7)",
+            borderRadius: "20px",
+            transition: "0.4s",
+          }}
+        />
+      </div>
+    </div>
+  ))}
+
+  <Link href="/accenture">
+    <button
+      style={{
+        ...buttonStyle,
+        width: "100%",
+        marginTop: "10px",
+      }}
+    >
+      ▶️Start Learning
+    </button>
+  </Link>
+</div>
 
   <div style={cardStyle}>
     <h3>Coding Round</h3>

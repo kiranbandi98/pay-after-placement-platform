@@ -38,15 +38,20 @@ try {
     return;
   }
 
-  localStorage.setItem(
-    "studentEmail",
-    data.user.email
-  );
+    localStorage.setItem(
+  "studentEmail",
+  data.user.email
+);
 
-  localStorage.setItem(
-    "studentName",
-    data.user.name
-  );
+localStorage.setItem(
+  "studentName",
+  data.user.name
+);
+
+localStorage.setItem(
+  "userId",
+  data.user.id
+);
 
   alert("Login successful");
 
@@ -200,16 +205,20 @@ Student Login </h1>
         return;
       }
 
-      localStorage.setItem(
-        "studentEmail",
-        data.user.email
-      );
+     localStorage.setItem(
+  "studentEmail",
+  data.user.email
+);
 
-      localStorage.setItem(
-        "studentName",
-        data.user.name
-      );
+localStorage.setItem(
+  "studentName",
+  data.user.name
+);
 
+localStorage.setItem(
+  "userId",
+  data.user.id
+);
       if (data.user.profile_completed) {
         window.location.href = "/dashboard";
       } else {
