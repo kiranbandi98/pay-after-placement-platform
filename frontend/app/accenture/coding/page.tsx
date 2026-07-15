@@ -1,22 +1,19 @@
 "use client";
 
 import { useState, useEffect } from "react";
- import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import Editor from "@monaco-editor/react";
 import axios from "axios";
 
 export default function CodingRound() {
 
   const router = useRouter();
-const searchParams = useSearchParams();
-
-const selectedSet =
-  searchParams.get("set") || "set1";
+ const selectedSet = "set1";
   const [questions, setQuestions] = useState<any[]>([]);
   
 
   useEffect(() => {
-    
+
    const userId = localStorage.getItem("userId");
 
   if (!userId) {
