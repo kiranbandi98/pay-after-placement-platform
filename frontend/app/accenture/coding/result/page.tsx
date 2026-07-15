@@ -1,5 +1,5 @@
-"use client";
-import { useEffect } from "react";
+"use client"
+import { useEffect, useState } from "react";
 import Link from "next/link";
 
 export default function CodingResultPage() {
@@ -11,17 +11,14 @@ export default function CodingResultPage() {
     window.location.href = "/login";
     return;
   }
-
+  setCompany(localStorage.getItem("codingCompany") || "Accenture");
+  setSet(localStorage.getItem("codingSet") || "SET1");
+  setScore(Number(localStorage.getItem("coding_total")) || 0);
 }, []);
 
-  const company =
-    localStorage.getItem("codingCompany") || "Accenture";
-
-  const set =
-    localStorage.getItem("codingSet") || "SET1";
-
-  const score =
-    Number(localStorage.getItem("coding_total")) || 0;
+   const [company, setCompany] = useState("Accenture");
+const [set, setSet] = useState("SET1");
+const [score, setScore] = useState(0);
 
   const total = 3;
 
