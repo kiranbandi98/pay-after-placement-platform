@@ -17,21 +17,36 @@ if (!email || !password) {
 
 try {
 
-   const response = await fetch(
+     const response = await fetch(
   `${process.env.NEXT_PUBLIC_API_URL}/api/login`,
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        email,
-        password,
-      }),
-    }
-  );
+  {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      email,
+      password,
+    }),
+  }
+);
 
-  const data = await response.json();
+const data = await response.json();
+
+if (!response.ok) {
+  alert(data.message);
+  return;
+}
+
+localStorage.setItem("studentEmail", data.user.email);
+localStorage.setItem("studentName", data.user.name);
+localStorage.setItem("userId", data.user.id);
+
+if (data.user.profile_completed) {
+  window.location.href = "/dashboard";
+} else {
+  window.location.href = "/complete-profile";
+}
 
   if (!response.ok) {
     alert(data.message);
