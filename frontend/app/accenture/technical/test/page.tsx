@@ -1,15 +1,12 @@
 "use client";
 
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 
 export default function TechnicalTestPage() {
 
   const router = useRouter();
-  const searchParams = useSearchParams();
-
-const selectedSet =
-  searchParams.get("set") || "set1";
+  const selectedSet = "set1";
 
   const [questions, setQuestions] = useState<any[]>([]);
   const [current, setCurrent] = useState(0);
