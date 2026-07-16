@@ -12,9 +12,7 @@ const searchParams = useSearchParams();
 
 const selectedSet =
   searchParams.get("set") || "set1";
-  console.log("URL:", window.location.href);
-console.log("searchParams set:", searchParams.get("set"));
-console.log("selectedSet:", selectedSet);
+ 
 
   const [questions, setQuestions] = useState<any[]>([]);
   const [current, setCurrent] = useState(0);
@@ -57,6 +55,9 @@ console.log("selectedSet:", selectedSet);
   }
 
   loadQuestions();
+    console.log("URL:", window.location.href);
+console.log("searchParams set:", searchParams.get("set"));
+console.log("selectedSet:", selectedSet);
 
 }, [selectedSet]);
 
