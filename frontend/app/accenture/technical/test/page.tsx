@@ -1,9 +1,9 @@
 "use client";
 
 import { useRouter, useSearchParams } from "next/navigation";
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 
-export default function TechnicalTestPage() {
+function TechnicalTestContent() {
 
   const router = useRouter();
   
@@ -347,4 +347,11 @@ console.log("Payload:", payload);
     </div>
   </div>
 );
+}
+export default function TechnicalTestPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <TechnicalTestContent />
+    </Suspense>
+  );
 }
