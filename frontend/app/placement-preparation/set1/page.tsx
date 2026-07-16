@@ -14,7 +14,7 @@ export default function CodingRound() {
 
   useEffect(() => {
    axios
-  .get("https://pay-after-placement-platform-1.onrender.com/api/coding-questions/placement_set1")
+  .get(`${process.env.NEXT_PUBLIC_API_URL}/api/coding-questions/placement_set1`)
     .then((res) => {
       setQuestions(res.data);
     })

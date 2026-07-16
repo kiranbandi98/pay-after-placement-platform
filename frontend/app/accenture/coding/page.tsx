@@ -21,9 +21,9 @@ export default function CodingRound() {
     return;
   }
 
-axios
+  axios
   .get(
-    `http://localhost:5000/api/coding-questions?company=accenture&set=${selectedSet}`
+    `${process.env.NEXT_PUBLIC_API_URL}/api/coding-questions?company=accenture&set=${selectedSet}`
   )
     .then((res) => {
   setQuestions(res.data.questions);

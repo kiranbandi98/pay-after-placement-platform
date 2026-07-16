@@ -22,8 +22,8 @@ const [score, setScore] = useState(0);
 
   const total = 3;
 
-  const percentage =
-    ((score / total) * 100).toFixed(2);
+   const percentage =
+  total > 0 ? ((score / total) * 100).toFixed(2) : "0.00";
 
   const passed =
     Number(percentage) >= 70;
