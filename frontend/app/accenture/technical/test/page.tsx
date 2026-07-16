@@ -1,53 +1,61 @@
 "use client";
 
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useState, useEffect } from "react";
 
 export default function TechnicalTestPage() {
 
   const router = useRouter();
-  const selectedSet = "set1";
+  
+
+const searchParams = useSearchParams();
+
+const selectedSet =
+  searchParams.get("set") || "set1";
 
   const [questions, setQuestions] = useState<any[]>([]);
   const [current, setCurrent] = useState(0);
   const [answers, setAnswers] = useState<any[]>([]);
   const [timeLeft, setTimeLeft] = useState(45 * 60);
+ useEffect(() => {
 
-  useEffect(() => {
-    const userId = localStorage.getItem("userId");
+  const userId = localStorage.getItem("userId");
 
-if (!userId) {
-  window.location.href = "/login";
-  return;
-}
+  if (!userId) {
+    window.location.href = "/login";
+    return;
+  }
 
-    async function loadQuestions() {
+  async function loadQuestions() {
 
-       const res = await fetch(
-  `https://pay-after-placement-platform.onrender.com/api/questions?company=accenture&set=${selectedSet}`
-);
+    const res = await fetch(
+      `https://pay-after-placement-platform.onrender.com/api/questions?company=accenture&set=${selectedSet}`
+    );
 
-      const data = await res.json();
+    const data = await res.json();
 
-      const formatted = data.questions.map((q: any) => ({
-  id: q.id,
-  question: q.question,
-  options: [
-    q.option_a,
-    q.option_b,
-    q.option_c,
-    q.option_d
-  ],
-  answer: q.correct_answer
-}));
+    console.log("Selected Set:", selectedSet);
+    console.log("Questions Loaded:", data.questions);
 
-      setQuestions(formatted);
-      setAnswers(new Array(formatted.length).fill(null));
-    }
+    const formatted = data.questions.map((q: any) => ({
+      id: q.id,
+      question: q.question,
+      options: [
+        q.option_a,
+        q.option_b,
+        q.option_c,
+        q.option_d
+      ],
+      answer: q.correct_answer
+    }));
 
-    loadQuestions();
+    setQuestions(formatted);
+    setAnswers(new Array(formatted.length).fill(null));
+  }
 
-  }, []);
+  loadQuestions();
+
+}, [selectedSet]);
 
   useEffect(() => {
 
