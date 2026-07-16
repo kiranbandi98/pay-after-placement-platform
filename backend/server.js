@@ -741,7 +741,119 @@ app.get("/api/questions", async (req, res) => {
     });
   }
 });  
+/* ------------------------------------------------
+   SUBMIT TECHNICAL TEST API
+------------------------------------------------ */
+console.log("✅ submit-test route registered");
 
+app.post("/api/submit-test", async (req, res) => {
+
+  try {
+
+    const { user_id, answers } = req.body;
+
+    if (!user_id || !answers || answers.length === 0) {
+      return res.status(400).json({
+        message: "Invalid submission"
+      });
+    }
+
+    let score = 0;
+    let total_questions = answers.length;
+
+    let company = "";
+    let module_id = null;
+    let set_no = "";
+
+    for (const answer of answers) {
+
+      const result = await pool.query(
+        `
+        SELECT
+          company,
+          module_id,
+          set_no,
+          correct_answer
+        FROM questions
+        WHERE id = $1
+        `,
+        [answer.question_id]
+      );
+
+      if (result.rows.length === 0) {
+        continue;
+      }
+
+      const question = result.rows[0];
+
+      company = question.company;
+      module_id = question.module_id;
+      set_no = question.set_no;
+      console.log("Question ID:", answer.question_id);
+      console.log("Student Answer:", answer.selected_answer);
+      console.log("Correct Answer:", question.correct_answer);
+      console.log("-------------------------");
+
+      if (
+        answer.selected_answer ===
+        question.correct_answer
+      ) {
+        score++;
+      }
+
+    }
+    
+    const percentage = Number(
+      ((score / total_questions) * 100).toFixed(2)
+    );
+
+    const status =
+      percentage >= 70 ? "PASSED" : "FAILED";
+
+    await pool.query(
+      `
+      INSERT INTO student_test_results
+      (
+        user_id,
+        company,
+        module_id,
+        set_no,
+        score,
+        total_questions,
+        percentage,
+        status
+      )
+      VALUES
+      ($1,$2,$3,$4,$5,$6,$7,$8)
+      `,
+      [
+        user_id,
+        company,
+        module_id,
+        set_no,
+        score,
+        total_questions,
+        percentage,
+        status
+      ]
+    );
+
+    res.json({
+      score,
+      total: total_questions
+    });
+
+  } catch (error) {
+
+    console.error("Technical Test Error:", error);
+
+    res.status(500).json({
+      message: "Technical test submission failed"
+    });
+
+  }
+
+});
 /* ------------------------------------------------
    SUBMIT CODING TEST API
 ------------------------------------------------ */
@@ -1060,13 +1172,13 @@ app.get("/api/progress/round2/:user_id", async (req, res) => {
 const codingRoundCompleted =
   codingProgress === 100;
 
-let dashboardRound2 = 0;
+ let dashboardRound2 = 0;
 
-if (technicalCompleted) {
+if (technicalRoundCompleted) {
   dashboardRound2 += 50;
 }
 
-if (codingCompleted) {
+if (codingRoundCompleted) {
   dashboardRound2 += 50;
 }
 
