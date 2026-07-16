@@ -109,7 +109,8 @@ if (!userId) {
       selected_answer: answers[index]
     }))
   };
-
+console.log("First Answer:", payload.answers[0]);
+console.log("Payload:", payload);
   try {
 
     const response = await fetch(
