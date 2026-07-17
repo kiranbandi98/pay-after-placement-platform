@@ -223,7 +223,7 @@ if (!submitted) {
 
   const userId = localStorage.getItem("userId");
 
-  fetch("http://localhost:5000/api/submit-coding-test", {
+  fetch("https://pay-after-placement-platform.onrender.com/api/submit-coding-test", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

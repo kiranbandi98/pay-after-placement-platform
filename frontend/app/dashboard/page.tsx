@@ -36,7 +36,7 @@ useEffect(() => {
 
 if (!userId) return;
 
-fetch(`http://localhost:5000/api/progress/round2/${userId}`)
+fetch(`https://pay-after-placement-platform.onrender.com/api/progress/round2/${userId}`)
     .then((res) => res.json())
     .then((data) => {
       console.log("Progress API:", data);

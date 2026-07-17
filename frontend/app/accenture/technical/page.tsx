@@ -19,7 +19,7 @@ export default function TechnicalSetsPage() {
   async function loadSets() {
 
     const res = await fetch(
-      "http://localhost:5000/api/question-sets?company=accenture&category=technical"
+      "https://pay-after-placement-platform.onrender.com/api/question-sets?company=accenture&category=technical"
     );
 
     const data = await res.json();

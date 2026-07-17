@@ -18,7 +18,7 @@ export default function AccenturePage() {
 }
 
   fetch(
-    `http://localhost:5000/api/progress/round2/${userId}`
+    `https://pay-after-placement-platform.onrender.com/api/progress/round2/${userId}`
   )
     .then((res) => res.json())
     .then((data) => {

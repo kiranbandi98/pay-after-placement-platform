@@ -18,7 +18,7 @@ export default function CodingSetsPage() {
     async function loadSets() {
 
       const res = await fetch(
-        "http://localhost:5000/api/coding-question-sets?company=accenture"
+        "https://pay-after-placement-platform.onrender.com/api/coding-question-sets?company=accenture"
       );
 
       const data = await res.json();
