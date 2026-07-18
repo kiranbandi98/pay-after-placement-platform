@@ -88,19 +88,19 @@ if (questions.length === 0) {
     try {
 
       const response = await axios.post(
-       " https://pay-after-placement-platform.onrender.com/api/execute",
+       "https://pay-after-placement-platform.onrender.com/api/execute",
         {
-          language: language,
-          code: codeText,
-          input: input
-        }
+  language: language,
+  source_code: codeText,
+  stdin: input
+}
       );
 
       const result =
-        response.data?.run?.stdout?.trim() ||
-        response.data?.run?.stderr?.trim() ||
-        "No output";
-
+  response.data.stdout?.trim() ||
+  response.data.stderr?.trim() ||
+  response.data.compile_output?.trim() ||
+  "No output";
       return result;
 
     } catch (error) {

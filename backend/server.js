@@ -1213,88 +1213,57 @@ if (codingRoundCompleted) {
   }
 
 });
-
-/* ------------------------------------------------
-   EXECUTE CODE (Judge0)
+ /* ------------------------------------------------
+   EXECUTE CODE (Piston)
 ------------------------------------------------ */
 
 app.post("/api/execute", async (req, res) => {
 
   try {
 
-    // We will add the execution logic here in the next step.
-    const {
-  source_code,
-  language,
-  stdin
-} = req.body;
+    const { source_code, language, stdin } = req.body;
 
-const languageMap = {
-  java: 62,
-  python: 71,
-  cpp: 54,
-  c: 50,
-  javascript: 63
-};
+    const languageMap = {
+      java: "java",
+      python: "python3",
+      cpp: "cpp",
+      c: "c"
+    };
 
-const language_id = languageMap[language];
+    const pistonLanguage = languageMap[language];
 
-if (!language_id) {
-  return res.status(400).json({
-    message: "Unsupported language"
-  });
-}
-const submitResponse = await axios.post(
-  `https://${process.env.JUDGE0_HOST}/submissions?base64_encoded=false&wait=false`,
-  {
-    source_code,
-    language_id,
-    stdin
-  },
-  {
-    headers: {
-      "Content-Type": "application/json",
-      "X-RapidAPI-Key": process.env.RAPIDAPI_KEY,
-      "X-RapidAPI-Host": process.env.JUDGE0_HOST
+    if (!pistonLanguage) {
+      return res.status(400).json({
+        message: "Unsupported language"
+      });
     }
-  }
-);
 
-const token = submitResponse.data.token;
-let result;
-
-while (true) {
-  result = await axios.get(
-    `https://${process.env.JUDGE0_HOST}/submissions/${token}?base64_encoded=false`,
-    {
-      headers: {
-        "X-RapidAPI-Key": process.env.RAPIDAPI_KEY,
-        "X-RapidAPI-Host": process.env.JUDGE0_HOST
+    const response = await axios.post(
+      "https://emkc.org/api/v2/piston/execute",
+      {
+        language: pistonLanguage,
+        version: "*",
+        files: [
+          {
+            content: source_code
+          }
+        ],
+        stdin: stdin || ""
       }
-    }
-  );
+    );
 
-  const statusId = result.data.status.id;
-
-  // 1 = In Queue, 2 = Processing
-  if (statusId !== 1 && statusId !== 2) {
-    break;
-  }
-
-  await new Promise(resolve => setTimeout(resolve, 1000));
-}
-return res.json({
-  stdout: result.data.stdout,
-  stderr: result.data.stderr,
-  compile_output: result.data.compile_output,
-  status: result.data.status.description
-});
+    return res.json({
+      stdout: response.data.run.stdout,
+      stderr: response.data.run.stderr,
+      compile_output: response.data.compile?.stderr || "",
+      status: response.data.run.code === 0 ? "Accepted" : "Error"
+    });
 
   } catch (error) {
 
-    console.error("Execute Error:", error);
+    console.error("Execute Error:", error.response?.data || error.message);
 
-    res.status(500).json({
+    return res.status(500).json({
       message: "Code execution failed"
     });
 
