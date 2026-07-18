@@ -88,7 +88,7 @@ if (questions.length === 0) {
     try {
 
       const response = await axios.post(
-        "https://pay-after-placement-platform-1.onrender.com/api/execute",
+       " https://pay-after-placement-platform.onrender.com/api/execute",
         {
           language: language,
           code: codeText,
